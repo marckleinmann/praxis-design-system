@@ -91,4 +91,4 @@ MIT. Fork it, rebrand it, ship it. See `LICENSE`.
 
 ## Origin
 
-Built by Praxis, an applied-AI studio in New York. The system shipped here is the one that powers praxis.com. It's published because small teams need small design systems, and because the decision reasoning in each `.md` file is more useful than the tokens themselves.
+Built by Praxis, an applied-AI studio in New York. The system shipped here is the one that powers praxisx.co. It's published because small teams need small design systems, and because the decision reasoning in each `.md` file is more useful than the tokens themselves.
