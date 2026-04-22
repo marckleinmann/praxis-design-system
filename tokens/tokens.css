@@ -1,0 +1,116 @@
+/* ============================================================
+   Praxis Design System · v1
+   Consolidated tokens (April 2026)
+   Source of truth: color-v1.md §5
+   ============================================================ */
+
+:root {
+  /* ---------- WARM neutrals (11 steps) ---------- */
+  --warm-50:  #FCFAF6;
+  --warm-100: #F5F0E8;
+  --warm-200: #E8DFD2;
+  --warm-300: #D4C7B4;
+  --warm-400: #B0A18C;
+  --warm-500: #8A7C6A;
+  --warm-600: #5C5248;
+  --warm-700: #3D3630;
+  --warm-800: #2A2520;
+  --warm-900: #1C1814;
+  --warm-950: #141210;
+
+  /* ---------- SIGNAL (brand attention color) ---------- */
+  --signal-100: #E8FFD4;
+  --signal-300: #C6FF7A;
+  --signal-500: #A3FF12;   /* brand */
+  --signal-700: #6FA80B;
+  --signal-900: #2F4504;
+
+  /* ---------- TERRACOTTA (brand warmth · primary CTA) ---------- */
+  --terracotta-100: #F2D9CE;
+  --terracotta-300: #D89A80;
+  --terracotta-500: #B8654A;  /* brand */
+  --terracotta-700: #7A3E2A;
+  --terracotta-900: #3A1C11;
+
+  /* ---------- Semantic UI palette (Refined · intentionally desaturated) ---------- */
+  --destructive-100: #F5D4D4;
+  --destructive-300: #E08080;
+  --destructive-500: #C94343;
+  --destructive-700: #8A2828;
+  --destructive-900: #3D0F10;
+
+  --success-100: #D4E8DF;
+  --success-300: #7FB19C;
+  --success-500: #3A7560;
+  --success-700: #1F4A3C;
+  --success-900: #0F241E;
+
+  --warning-100: #F0DCB8;
+  --warning-300: #D4AA6E;
+  --warning-500: #C28130;
+  --warning-700: #8A5A1A;
+  --warning-900: #3D2808;
+
+  --info-100: #D4DFE8;
+  --info-300: #7A95AE;
+  --info-500: #4A7090;
+  --info-700: #2A4A65;
+  --info-900: #10243A;
+
+  /* ---------- SEMANTIC surface / text / border (dark-first default) ---------- */
+  --bg:              var(--warm-800);
+  --surface:         var(--warm-700);
+  --surface-subtle:  rgba(245, 240, 232, 0.03);
+
+  --text-primary:    var(--warm-100);
+  --text-secondary:  var(--warm-300);
+  --text-muted:      var(--warm-500);
+  --text-signal:     var(--signal-500);
+
+  --border-subtle:   rgba(245, 240, 232, 0.08);
+
+  /* ---------- BUTTON tokens ---------- */
+  --btn-hero-bg:        var(--signal-500);
+  --btn-hero-fg:        var(--warm-800);
+  --btn-primary-bg:     var(--terracotta-500);
+  --btn-primary-fg:     var(--warm-100);
+  --btn-destructive-bg: var(--destructive-500);
+  --btn-destructive-fg: var(--warm-100);
+  --btn-neutral-bg:     var(--warm-700);
+  --btn-neutral-fg:     var(--warm-100);
+
+  /* ---------- TYPOGRAPHY ---------- */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono:    'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+
+  /* ---------- RADIUS (system family) ---------- */
+  --radius-button: 6px;   /* buttons, inputs, icon-buttons */
+  --radius-card:   8px;   /* cards, surfaces */
+  --radius-tile:   9%;    /* logo tile (percentage of tile width) */
+
+  /* ---------- FOCUS RING (single contract, used everywhere) ---------- */
+  --focus-ring: 2px solid rgba(163, 255, 18, 0.4);
+  --focus-ring-offset: 2px;
+}
+
+/* ============================================================
+   Light-mode override (optional)
+   Flip semantic surface + text when on light background.
+   Raw palette does not change.
+   ============================================================ */
+
+.theme-light {
+  --bg:              var(--warm-100);
+  --surface:         var(--warm-50);
+  --surface-subtle:  rgba(42, 37, 32, 0.03);
+  --text-primary:    var(--warm-900);
+  --text-secondary:  var(--warm-700);
+  --text-muted:      var(--warm-500);
+  --border-subtle:   rgba(42, 37, 32, 0.08);
+  --btn-hero-fg:     var(--warm-900);
+  --btn-primary-fg:  var(--warm-100);
+  --btn-destructive-fg: var(--warm-100);
+  --btn-neutral-bg:  var(--warm-200);
+  --btn-neutral-fg:  var(--warm-900);
+}

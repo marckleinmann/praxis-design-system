@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Praxis · Button Component v1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Palette (from Color v1) */
+    --warm-100: #F5F0E8;
+    --warm-300: #D4C7B4;
+    --warm-400: #B0A18C;
+    --warm-500: #8A7C6A;
+    --warm-600: #5C5248;
+    --warm-700: #3D3630;
+    --warm-800: #2A2520;
+    --warm-900: #1C1814;
+    --warm-950: #141210;
+
+    --terracotta-300: #D67952;
+    --terracotta-500: #B8654A;
+    --terracotta-700: #8A4A35;
+    --terracotta-900: #5C2E1F;
+
+    --signal-300: #C4FF5E;
+    --signal-500: #A3FF12;
+    --signal-700: #7AC208;
+    --signal-900: #4D7B00;
+
+    --destructive-300: #E08080;
+    --destructive-500: #C94343;
+    --destructive-700: #8A2828;
+    --destructive-900: #3D0F10;
+
+    /* Semantic */
+    --bg: var(--warm-800);
+    --surface: var(--warm-700);
+    --surface-subtle: rgba(245, 240, 232, 0.03);
+    --text-primary: var(--warm-100);
+    --text-secondary: var(--warm-300);
+    --text-muted: var(--warm-500);
+    --border-subtle: rgba(245, 240, 232, 0.08);
+    --border: rgba(245, 240, 232, 0.16);
+    --border-emphasis: var(--warm-500);
+
+    /* Button tier tokens */
+    --btn-hero-bg: var(--signal-500);
+    --btn-hero-fg: var(--warm-800);
+    --btn-primary-bg: var(--terracotta-500);
+    --btn-primary-fg: var(--warm-100);
+    --btn-destructive-bg: var(--destructive-500);
+    --btn-destructive-fg: var(--warm-100);
+    --btn-neutral-bg: var(--warm-700);
+    --btn-neutral-fg: var(--warm-100);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 80px 48px 120px; }
+
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--signal-500);
+    margin: 0 0 12px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 0;
+    font-size: 64px;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin: 0 0 20px;
+  }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-variation-settings: 'opsz' 72, 'SOFT' 75, 'WONK' 0;
+    font-size: 36px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin: 80px 0 12px;
+  }
+  h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 28px;
+  }
+  .sub {
+    font-size: 16px;
+    color: var(--text-primary);
+    opacity: 0.72;
+    max-width: 760px;
+    margin: 0 0 24px;
+  }
+  .section { padding-top: 32px; border-top: 1px solid var(--border-subtle); margin-top: 72px; }
+  .section:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+
+  .label-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* =================== BUTTON SYSTEM =================== */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 120ms ease, opacity 120ms ease, transform 80ms ease, border-color 120ms ease;
+    user-select: none;
+    white-space: nowrap;
+  }
+  .btn:focus-visible {
+    outline: 2px solid rgba(163, 255, 18, 0.4);
+    outline-offset: 2px;
+  }
+  .btn:disabled,
+  .btn[aria-busy="true"] {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* Sizes */
+  .btn-sm { height: 28px; padding: 0 10px; font-size: 12px; gap: 6px; }
+  .btn-md { height: 32px; padding: 0 12px; font-size: 13px; }
+  .btn-lg { height: 40px; padding: 0 16px; font-size: 14px; gap: 10px; }
+
+  /* Tier 1 · Hero (Signal) */
+  .btn-hero { background: var(--btn-hero-bg); color: var(--btn-hero-fg); font-weight: 600; }
+  .btn-hero:hover { background: var(--signal-700); }
+  .btn-hero:active { background: var(--signal-900); color: var(--warm-100); }
+
+  /* Tier 2 · Primary (Terracotta) */
+  .btn-primary { background: var(--btn-primary-bg); color: var(--btn-primary-fg); }
+  .btn-primary:hover { background: var(--terracotta-700); }
+  .btn-primary:active { background: var(--terracotta-900); }
+
+  /* Tier 3 · Destructive */
+  .btn-destructive { background: var(--btn-destructive-bg); color: var(--btn-destructive-fg); }
+  .btn-destructive:hover { background: var(--destructive-700); }
+  .btn-destructive:active { background: var(--destructive-900); }
+
+  /* Tier 4 · Ghost */
+  .btn-ghost { background: transparent; color: var(--text-primary); border-color: var(--border); }
+  .btn-ghost:hover { background: var(--surface-subtle); border-color: var(--border-emphasis); }
+  .btn-ghost:active { background: rgba(245, 240, 232, 0.06); }
+
+  /* Tier 5 · Neutral */
+  .btn-neutral { background: var(--btn-neutral-bg); color: var(--btn-neutral-fg); }
+  .btn-neutral:hover { background: var(--warm-600); }
+  .btn-neutral:active { background: var(--warm-800); }
+
+  /* Full-width */
+  .btn-full { width: 100%; }
+
+  /* Icon-only */
+  .btn-icon.btn-sm { width: 28px; padding: 0; }
+  .btn-icon.btn-md { width: 32px; padding: 0; }
+  .btn-icon.btn-lg { width: 40px; padding: 0; }
+
+  /* State classes (forced visual states for demo purposes only) */
+  .state-hover.btn-hero { background: var(--signal-700); }
+  .state-hover.btn-primary { background: var(--terracotta-700); }
+  .state-hover.btn-destructive { background: var(--destructive-700); }
+  .state-hover.btn-ghost { background: var(--surface-subtle); border-color: var(--border-emphasis); }
+  .state-hover.btn-neutral { background: var(--warm-600); }
+
+  .state-active.btn-hero { background: var(--signal-900); color: var(--warm-100); }
+  .state-active.btn-primary { background: var(--terracotta-900); }
+  .state-active.btn-destructive { background: var(--destructive-900); }
+  .state-active.btn-ghost { background: rgba(245, 240, 232, 0.06); }
+  .state-active.btn-neutral { background: var(--warm-800); }
+
+  .state-focus { outline: 2px solid rgba(163, 255, 18, 0.4); outline-offset: 2px; }
+
+  /* Spinner */
+  .btn-spinner {
+    width: 1em; height: 1em;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Inline icon sizing */
+  .icon { flex-shrink: 0; }
+  .btn-sm .icon { width: 14px; height: 14px; }
+  .btn-md .icon { width: 16px; height: 16px; }
+  .btn-lg .icon { width: 18px; height: 18px; }
+
+  /* =================== GRID / DEMO SURFACES =================== */
+  .grid-tier-size {
+    display: grid;
+    grid-template-columns: 140px 1fr 1fr 1fr;
+    gap: 20px 28px;
+    align-items: center;
+    margin-top: 24px;
+  }
+  .grid-tier-size .tier-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+  .grid-tier-size .size-col {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .grid-tier-size .col-hd {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--signal-500);
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .state-grid {
+    display: grid;
+    grid-template-columns: 120px repeat(6, 1fr);
+    gap: 16px 20px;
+    align-items: center;
+    margin-top: 24px;
+  }
+  .state-grid .tier-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+  .state-grid .state-hd {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--signal-500);
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .variant-grid {
+    display: grid;
+    grid-template-columns: 140px 1fr 1fr 1fr 1fr 1fr;
+    gap: 16px 20px;
+    align-items: center;
+    margin-top: 24px;
+  }
+  .variant-grid .tier-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+  .variant-grid .variant-hd {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--signal-500);
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  /* Pair pattern examples */
+  .pattern-card {
+    background: var(--surface-subtle);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .pattern-card.terminal { background: var(--warm-950); }
+  .pattern-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 24px;
+  }
+  .pattern-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .pattern-title {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.2;
+    font-variation-settings: 'opsz' 48, 'SOFT' 75;
+  }
+  .pattern-body {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+  .pattern-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  /* Usage rule callout */
+  .rule-card {
+    background: var(--surface-subtle);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-top: 20px;
+  }
+  .rule-card.do { border-left: 3px solid var(--signal-500); }
+  .rule-card.dont { border-left: 3px solid var(--destructive-500); }
+  .rule-card h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0 0 14px;
+  }
+  .rule-card.do h4 { color: var(--signal-500); }
+  .rule-card.dont h4 { color: var(--destructive-300); }
+  .rule-card ul {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+  .rule-card ul li { margin-bottom: 4px; }
+
+  /* Meta footer */
+  .meta {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+  .meta b { color: var(--text-primary); font-weight: 500; }
+
+  /* Light surface preview */
+  .preview-light {
+    background: var(--warm-100);
+    color: var(--warm-800);
+    border-radius: 12px;
+    padding: 32px;
+    margin-top: 20px;
+  }
+  .preview-light .btn-ghost { color: var(--warm-800); border-color: rgba(42,37,32,0.18); }
+  .preview-light .btn-ghost:hover { background: rgba(42,37,32,0.05); }
+  .preview-light .pattern-label { color: var(--warm-600); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="kicker">Praxis · Button Component v1 · LOCKED · Revised 2026-04-22</p>
+  <h1>Buttons. Five tiers. One scarcity rule.</h1>
+  <p class="sub">First base component. Consumes the locked semantic tokens from Color v1. Five tiers enforce the scarcity rule: Signal is rare, Terracotta is the default primary, Success/Warning/Info are not button colors. Three sizes (benchmarked to Claude, Notion, Linear), six states, five variants per tier. 6px radius, Inter 500. Full spec: <code style="color:var(--signal-500);">button.md</code>.</p>
+
+  <!-- ========================================================== -->
+  <!-- SECTION 1 · Tier overview                                  -->
+  <!-- ========================================================== -->
+  <div class="section">
+    <h2>Five tiers.</h2>
+    <h3>Scarcity rule · from Color v1 §2.6</h3>
+
+    <div class="grid-tier-size">
+      <div></div>
+      <div class="col-hd">sm · 28px</div>
+      <div class="col-hd">md · 32px · default</div>
+      <div class="col-hd">lg · 40px</div>
+
+      <div class="tier-name" style="color:var(--signal-500);">1 · Hero</div>
+      <div class="size-col"><button class="btn btn-sm btn-hero">Book a diagnostic</button></div>
+      <div class="size-col"><button class="btn btn-md btn-hero">Book a diagnostic</button></div>
+      <div class="size-col"><button class="btn btn-lg btn-hero">Book a diagnostic →</button></div>
+
+      <div class="tier-name" style="color:var(--terracotta-300);">2 · Primary</div>
+      <div class="size-col"><button class="btn btn-sm btn-primary">Send proposal</button></div>
+      <div class="size-col"><button class="btn btn-md btn-primary">Send proposal</button></div>
+      <div class="size-col"><button class="btn btn-lg btn-primary">Send proposal</button></div>
+
+      <div class="tier-name" style="color:var(--destructive-300);">3 · Destructive</div>
+      <div class="size-col"><button class="btn btn-sm btn-destructive">Delete</button></div>
+      <div class="size-col"><button class="btn btn-md btn-destructive">Delete project</button></div>
+      <div class="size-col"><button class="btn btn-lg btn-destructive">Delete project</button></div>
+
+      <div class="tier-name">4 · Ghost</div>
+      <div class="size-col"><button class="btn btn-sm btn-ghost">Cancel</button></div>
+      <div class="size-col"><button class="btn btn-md btn-ghost">Cancel</button></div>
+      <div class="size-col"><button class="btn btn-lg btn-ghost">Cancel</button></div>
+
+      <div class="tier-name">5 · Neutral</div>
+      <div class="size-col"><button class="btn btn-sm btn-neutral">Save draft</button></div>
+      <div class="size-col"><button class="btn btn-md btn-neutral">Save draft</button></div>
+      <div class="size-col"><button class="btn btn-lg btn-neutral">Save draft</button></div>
+    </div>
+
+    <p class="sub" style="margin-top:40px;">Signal is reserved. Used on the logo tile and on the single hero CTA per marketing page. Never on product surfaces. Terracotta is the default positive action in products. Destructive carries irreversible weight only. Ghost sits next to primary as the dismiss path. Neutral handles low-emphasis persist (save draft, export, back).</p>
+  </div>
+
+  <!-- ========================================================== -->
+  <!-- SECTION 2 · States matrix                                  -->
+  <!-- ========================================================== -->
+  <div class="section">
+    <h2>Six states per tier.</h2>
+    <h3>default · hover · focus-visible · active · disabled · loading</h3>
+
+    <div class="state-grid">
+      <div></div>
+      <div class="state-hd">default</div>
+      <div class="state-hd">hover</div>
+      <div class="state-hd">focus</div>
+      <div class="state-hd">active</div>
+      <div class="state-hd">disabled</div>
+      <div class="state-hd">loading</div>
+
+      <div class="tier-name" style="color:var(--signal-500);">Hero</div>
+      <div><button class="btn btn-md btn-hero">Book</button></div>
+      <div><button class="btn btn-md btn-hero state-hover">Book</button></div>
+      <div><button class="btn btn-md btn-hero state-focus">Book</button></div>
+      <div><button class="btn btn-md btn-hero state-active">Book</button></div>
+      <div><button class="btn btn-md btn-hero" disabled>Book</button></div>
+      <div><button class="btn btn-md btn-hero" aria-busy="true"><span class="btn-spinner"></span>Book</button></div>
+
+      <div class="tier-name" style="color:var(--terracotta-300);">Primary</div>
+      <div><button class="btn btn-md btn-primary">Send</button></div>
+      <div><button class="btn btn-md btn-primary state-hover">Send</button></div>
+      <div><button class="btn btn-md btn-primary state-focus">Send</button></div>
+      <div><button class="btn btn-md btn-primary state-active">Send</button></div>
+      <div><button class="btn btn-md btn-primary" disabled>Send</button></div>
+      <div><button class="btn btn-md btn-primary" aria-busy="true"><span class="btn-spinner"></span>Send</button></div>
+
+      <div class="tier-name" style="color:var(--destructive-300);">Destructive</div>
+      <div><button class="btn btn-md btn-destructive">Delete</button></div>
+      <div><button class="btn btn-md btn-destructive state-hover">Delete</button></div>
+      <div><button class="btn btn-md btn-destructive state-focus">Delete</button></div>
+      <div><button class="btn btn-md btn-destructive state-active">Delete</button></div>
+      <div><button class="btn btn-md btn-destructive" disabled>Delete</button></div>
+      <div><button class="btn btn-md btn-destructive" aria-busy="true"><span class="btn-spinner"></span>Delete</button></div>
+
+      <div class="tier-name">Ghost</div>
+      <div><button class="btn btn-md btn-ghost">Cancel</button></div>
+      <div><button class="btn btn-md btn-ghost state-hover">Cancel</button></div>
+      <div><button class="btn btn-md btn-ghost state-focus">Cancel</button></div>
+      <div><button class="btn btn-md btn-ghost state-active">Cancel</button></div>
+      <div><button class="btn btn-md btn-ghost" disabled>Cancel</button></div>
+      <div><button class="btn btn-md btn-ghost" aria-busy="true"><span class="btn-spinner"></span>Cancel</button></div>
+
+      <div class="tier-name">Neutral</div>
+      <div><button class="btn btn-md btn-neutral">Save</button></div>
+      <div><button class="btn btn-md btn-neutral state-hover">Save</button></div>
+      <div><button class="btn btn-md btn-neutral state-focus">Save</button></div>
+      <div><button class="btn btn-md btn-neutral state-active">Save</button></div>
+      <div><button class="btn btn-md btn-neutral" disabled>Save</button></div>
+      <div><button class="btn btn-md btn-neutral" aria-busy="true"><span class="btn-spinner"></span>Save</button></div>
+    </div>
+
+    <p class="sub" style="margin-top:40px;">Hover shifts one step darker in the scale. Active shifts one further. Focus ring is 2px Signal at 40% opacity, 2px offset, keyboard-only via <code style="color:var(--text-primary);">:focus-visible</code>. Disabled drops to 40% opacity with <code style="color:var(--text-primary);">cursor: not-allowed</code>. Loading replaces leading icon with a spinner, keeps the label, and sets <code style="color:var(--text-primary);">aria-busy="true"</code>.</p>
+  </div>
+
+  <!-- ========================================================== -->
+  <!-- SECTION 3 · Variants                                       -->
+  <!-- ========================================================== -->
+  <div class="section">
+    <h2>Five variants per tier.</h2>
+    <h3>text · leading icon · trailing icon · icon only · full-width</h3>
+
+    <div class="variant-grid">
+      <div></div>
+      <div class="variant-hd">text</div>
+      <div class="variant-hd">leading icon</div>
+      <div class="variant-hd">trailing icon</div>
+      <div class="variant-hd">icon only</div>
+      <div class="variant-hd">full-width</div>
+
+      <div class="tier-name" style="color:var(--signal-500);">Hero</div>
+      <div><button class="btn btn-md btn-hero">Book</button></div>
+      <div><button class="btn btn-md btn-hero"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>Book</button></div>
+      <div><button class="btn btn-md btn-hero">Book<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button></div>
+      <div><button class="btn btn-md btn-icon btn-hero" aria-label="Book a diagnostic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg></button></div>
+      <div><button class="btn btn-md btn-hero btn-full">Book a diagnostic</button></div>
+
+      <div class="tier-name" style="color:var(--terracotta-300);">Primary</div>
+      <div><button class="btn btn-md btn-primary">Send</button></div>
+      <div><button class="btn btn-md btn-primary"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>Send</button></div>
+      <div><button class="btn btn-md btn-primary">Send<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button></div>
+      <div><button class="btn btn-md btn-icon btn-primary" aria-label="Send proposal"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button></div>
+      <div><button class="btn btn-md btn-primary btn-full">Send proposal</button></div>
+
+      <div class="tier-name" style="color:var(--destructive-300);">Destructive</div>
+      <div><button class="btn btn-md btn-destructive">Delete</button></div>
+      <div><button class="btn btn-md btn-destructive"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Delete</button></div>
+      <div><button class="btn btn-md btn-destructive">Delete<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button></div>
+      <div><button class="btn btn-md btn-icon btn-destructive" aria-label="Delete"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button></div>
+      <div><button class="btn btn-md btn-destructive btn-full">Delete project</button></div>
+
+      <div class="tier-name">Ghost</div>
+      <div><button class="btn btn-md btn-ghost">Cancel</button></div>
+      <div><button class="btn btn-md btn-ghost"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</button></div>
+      <div><button class="btn btn-md btn-ghost">More<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button></div>
+      <div><button class="btn btn-md btn-icon btn-ghost" aria-label="Close"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+      <div><button class="btn btn-md btn-ghost btn-full">Cancel</button></div>
+
+      <div class="tier-name">Neutral</div>
+      <div><button class="btn btn-md btn-neutral">Save</button></div>
+      <div><button class="btn btn-md btn-neutral"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>Save</button></div>
+      <div><button class="btn btn-md btn-neutral">Export<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></button></div>
+      <div><button class="btn btn-md btn-icon btn-neutral" aria-label="More options"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></button></div>
+      <div><button class="btn btn-md btn-neutral btn-full">Save draft</button></div>
+    </div>
+  </div>
+
+  <!-- ========================================================== -->
+  <!-- SECTION 4 · Pair patterns                                  -->
+  <!-- ========================================================== -->
+  <div class="section">
+    <h2>Pair patterns.</h2>
+    <h3>Five canonical pairings · one button leads, the other yields</h3>
+
+    <div class="pattern-grid">
+
+      <div class="pattern-card">
+        <div class="pattern-label" style="color:var(--signal-500);">Marketing hero · Hero + Ghost</div>
+        <div class="pattern-title">Applied AI for operating businesses.</div>
+        <div class="pattern-body">Fixed-price diagnostics, builds, embeds.</div>
+        <div class="pattern-actions">
+          <button class="btn btn-lg btn-hero">Book a diagnostic →</button>
+          <button class="btn btn-lg btn-ghost">See case studies</button>
+        </div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-label" style="color:var(--terracotta-300);">Form submit · Primary + Ghost</div>
+        <div class="pattern-title">Send this proposal to Acme?</div>
+        <div class="pattern-body">The proposal will be sent from hello@studio.example. You can still edit for 5 minutes after send.</div>
+        <div class="pattern-actions">
+          <button class="btn btn-md btn-primary">Send proposal</button>
+          <button class="btn btn-md btn-ghost">Cancel</button>
+        </div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-label" style="color:var(--destructive-300);">Destructive dialog · Destructive + Ghost</div>
+        <div class="pattern-title">Delete Northwind project?</div>
+        <div class="pattern-body">This removes 14 files and 3 workflows. Cannot be undone.</div>
+        <div class="pattern-actions">
+          <button class="btn btn-md btn-destructive">Delete project</button>
+          <button class="btn btn-md btn-ghost">Keep it</button>
+        </div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-label">Product toolbar · Primary + Ghost + Neutral</div>
+        <div class="pattern-title">Proposal draft</div>
+        <div class="pattern-body">Invoice for Contoso month-2 build. Ready for review.</div>
+        <div class="pattern-actions">
+          <button class="btn btn-sm btn-primary">Send</button>
+          <button class="btn btn-sm btn-neutral">Save draft</button>
+          <button class="btn btn-sm btn-ghost">Discard</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================== -->
+  <!-- SECTION 5 · Light surface                                  -->
+  <!-- ========================================================== -->
+  <div class="section">
+    <h2>Light surface.</h2>
+    <h3>Ghost inverts border and text for cream surfaces</h3>
+
+    <div class="preview-light">
+      <div class="pattern-label">warm-100 · editorial surface</div>
+      <div style="font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:28px; line-height:1.2; color:var(--warm-800); margin:12px 0 8px; font-variation-settings:'opsz' 72,'SOFT' 75;">Case study: Acme intake automation.</div>
+      <div style="font-size:14px; color:var(--warm-600); line-height:1.55; margin-bottom:20px;">How the team cut proposal turnaround from 6 hours to 12 minutes for a mid-sized operations team.</div>
+      <div class="pattern-actions">
+        <button class="btn btn-md btn-primary">Read the study</button>
+        <button class="btn btn-md btn-ghost">Download PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================== -->
+  <!-- SECTION 6 · Usage rules                                    -->
+  <!-- ========================================================== -->
+  <div class="section">
+    <h2>Usage rules.</h2>
+    <h3>Scarcity enforced at the component layer</h3>
+
+    <div class="rule-card do">
+      <h4>Do</h4>
+      <ul>
+        <li>Use Hero once per marketing page, maximum.</li>
+        <li>Default to Primary for positive product actions.</li>
+        <li>Pair Destructive with Ghost in confirmation dialogs.</li>
+        <li>Use Ghost for "Cancel" next to Primary "Submit."</li>
+        <li>Use Neutral for low-stakes persistence (Save draft, Export).</li>
+        <li>Use icon-only buttons for repeated toolbar actions with clear iconography.</li>
+        <li>Always include <code style="color:var(--text-primary);">aria-label</code> on icon-only.</li>
+      </ul>
+    </div>
+
+    <div class="rule-card dont">
+      <h4>Don't</h4>
+      <ul>
+        <li>Don't use Hero in product surfaces (dashboards, tables, forms).</li>
+        <li>Don't use success, warning, or info as button colors. Those are alert and badge colors only.</li>
+        <li>Don't stack two Primary buttons side-by-side at equal emphasis. Pick one.</li>
+        <li>Don't use Destructive for reversible actions (Edit, Duplicate, Archive-that-can-be-unarchived).</li>
+        <li>Don't replace the text with a spinner in loading. Keep the label.</li>
+        <li>Don't add <code style="color:var(--text-primary);">:focus</code> ring without <code style="color:var(--text-primary);">:focus-visible</code>. Mouse clicks shouldn't flash the ring.</li>
+        <li>Don't override radius per-button. 7px is the system radius.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ========================================================== -->
+  <!-- Meta footer                                                -->
+  <!-- ========================================================== -->
+  <div class="meta">
+    <span><b>v1</b></span>
+    <span>Build · 2026-04-22</span>
+    <span>Canonical spec · <b>button.md</b></span>
+    <span>Companions · <b>color.md · typography.md · logo.md</b></span>
+  </div>
+
+</div>
+</body>
+</html>

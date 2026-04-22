@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Praxis - Typography System v1 (LOCKED)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --warm-dark: #2A2520;
+    --warm-deep: #1F1B17;
+    --warm-darker: #141210;
+    --terracotta: #B8654A;
+    --terracotta-bright: #D67952;
+    --cream: #F5F0E8;
+    --signal: #A3FF12;
+    --graphite-warm: #8A8179;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--warm-dark);
+    color: var(--cream);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .page { max-width: 1280px; margin: 0 auto; padding: 96px 64px; }
+
+  /* ===== Masthead ===== */
+  .masthead {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(138, 129, 121, 0.25);
+    margin-bottom: 96px;
+  }
+  .masthead .title-group .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--graphite-warm);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 24px;
+  }
+  .masthead .title-group .kicker::before {
+    content: "";
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--signal);
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  .masthead h1 {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-variation-settings: 'opsz' 144, 'SOFT' 100;
+    font-weight: 500;
+    font-size: 72px;
+    line-height: 1;
+    color: var(--cream);
+    letter-spacing: -0.02em;
+  }
+  .masthead h1 em {
+    color: var(--signal);
+    font-style: italic;
+  }
+  .masthead .stamp {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--graphite-warm);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    text-align: right;
+    line-height: 1.8;
+  }
+  .masthead .stamp .locked {
+    color: var(--signal);
+  }
+
+  /* ===== Section scaffolding ===== */
+  section {
+    margin-bottom: 120px;
+  }
+  .section-head {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 32px;
+    align-items: baseline;
+    padding-bottom: 24px;
+    margin-bottom: 48px;
+    border-bottom: 1px dashed rgba(138, 129, 121, 0.2);
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--signal);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+  .section-head h2 {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-variation-settings: 'opsz' 144, 'SOFT' 100;
+    font-weight: 500;
+    font-size: 44px;
+    color: var(--cream);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+  .section-head .section-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--graphite-warm);
+    margin-top: 12px;
+    max-width: 640px;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  /* ===== Section 01: The mark ===== */
+  .mark-hero {
+    padding: 40px 0 32px 112px;
+  }
+  .mark-hero .wordmark {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 0;
+    font-weight: 500;
+    color: var(--signal);
+    font-size: clamp(180px, 22vw, 300px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+  .mark-spec-grid {
+    display: grid;
+    grid-template-columns: 112px repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(138, 129, 121, 0.2);
+  }
+  .mark-spec-grid > div:first-child { grid-column: 1; }
+  .spec-cell {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--graphite-warm);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    line-height: 1.8;
+  }
+  .spec-cell strong {
+    color: var(--cream);
+    font-weight: 500;
+    display: block;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+
+  /* ===== Section 02: Size ladder ===== */
+  .ladder {
+    padding-left: 112px;
+  }
+  .ladder-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 160px;
+    align-items: baseline;
+    gap: 32px;
+    padding: 20px 0;
+    border-bottom: 1px dashed rgba(138, 129, 121, 0.15);
+  }
+  .ladder-row:last-child { border-bottom: none; }
+  .ladder-size, .ladder-usage {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--graphite-warm);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .ladder-word {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--signal);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  /* ===== Section 03: Authorized treatments ===== */
+  .treatments {
+    padding-left: 112px;
+  }
+  .treatment-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .tr {
+    padding: 64px 40px 32px 40px;
+    min-height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+  .tr-num {
+    position: absolute;
+    top: 16px; right: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    opacity: 0.55;
+  }
+  .tr-word {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-variation-settings: 'opsz' 144, 'SOFT' 100;
+    font-weight: 500;
+    font-size: 72px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .tr-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    line-height: 1.7;
+    margin-top: 24px;
+  }
+  .tr-meta strong {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+
+  .t1 { background: var(--warm-dark); border: 1px solid rgba(138,129,121,0.25); }
+  .t1 .tr-num, .t1 .tr-meta { color: var(--graphite-warm); }
+  .t1 .tr-word { color: var(--signal); }
+  .t1 .tr-meta strong { color: var(--cream); }
+
+  .t2 { background: var(--cream); }
+  .t2 .tr-num, .t2 .tr-meta { color: var(--warm-dark); opacity: 0.7; }
+  .t2 .tr-word { color: var(--terracotta); }
+  .t2 .tr-meta strong { color: var(--warm-dark); opacity: 1; }
+
+  .t3 { background: var(--terracotta); }
+  .t3 .tr-num, .t3 .tr-meta { color: var(--cream); opacity: 0.85; }
+  .t3 .tr-word { color: var(--cream); }
+  .t3 .tr-meta strong { color: var(--cream); opacity: 1; }
+
+  .t4 { background: var(--warm-darker); border: 1px solid rgba(138,129,121,0.25); }
+  .t4 .tr-num, .t4 .tr-meta { color: var(--graphite-warm); }
+  .t4 .tr-word { color: var(--terracotta-bright); }
+  .t4 .tr-meta strong { color: var(--cream); }
+
+  .t5 { background: var(--warm-dark); border: 1px solid rgba(138,129,121,0.25); }
+  .t5 .tr-num, .t5 .tr-meta { color: var(--graphite-warm); }
+  .t5 .tr-word { color: var(--terracotta-bright); }
+  .t5 .tr-meta strong { color: var(--cream); }
+
+  .t6 { background: var(--cream); }
+  .t6 .tr-num, .t6 .tr-meta { color: var(--warm-dark); opacity: 0.7; }
+  .t6 .tr-word { color: var(--warm-dark); }
+  .t6 .tr-meta strong { color: var(--warm-dark); opacity: 1; }
+
+  /* ===== Section 04: Type stack ===== */
+  .type-stack {
+    padding-left: 112px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .face {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 48px;
+    align-items: start;
+    padding: 40px 0;
+    border-bottom: 1px dashed rgba(138, 129, 121, 0.2);
+  }
+  .face:last-child { border-bottom: none; }
+  .face-meta .face-name {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 32px;
+    color: var(--cream);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .face-meta .face-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--signal);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 16px;
+  }
+  .face-meta .face-spec {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--graphite-warm);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    line-height: 1.8;
+  }
+  .face-samples > * { display: block; margin-bottom: 12px; }
+
+  .fraunces-sample-lg {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-variation-settings: 'opsz' 144, 'SOFT' 100;
+    font-weight: 500;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--cream);
+    letter-spacing: -0.01em;
+  }
+  .fraunces-sample-md {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-variation-settings: 'opsz' 48, 'SOFT' 50;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 1.15;
+    color: var(--cream);
+  }
+  .fraunces-sample-sm {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-variation-settings: 'opsz' 14;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--graphite-warm);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .inter-sample-lg {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--cream);
+    max-width: 620px;
+  }
+  .inter-sample-md {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--cream);
+    letter-spacing: -0.005em;
+  }
+  .inter-sample-sm {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--graphite-warm);
+  }
+
+  .mono-sample-lg {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--signal);
+  }
+  .mono-sample-md {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--cream);
+    opacity: 0.85;
+    background: var(--warm-darker);
+    padding: 14px 18px;
+    border-left: 2px solid var(--signal);
+  }
+  .mono-sample-sm {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 10px;
+    color: var(--graphite-warm);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+
+  /* ===== Section 05: Size ladder visual callouts ===== */
+
+  /* ===== Section 06: In use ===== */
+  .in-use {
+    padding-left: 112px;
+  }
+  .use-nav {
+    background: var(--warm-deep);
+    border: 1px solid rgba(138, 129, 121, 0.2);
+    padding: 22px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+  .use-nav .logo-nav {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-variation-settings: 'opsz' 144;
+    font-weight: 500;
+    font-size: 24px;
+    color: var(--signal);
+  }
+  .use-nav .nav-links {
+    display: flex;
+    gap: 28px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--cream);
+    align-items: center;
+  }
+  .use-nav .nav-links .cta {
+    background: var(--terracotta);
+    color: var(--cream);
+    padding: 8px 18px;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+
+  .use-composition {
+    background: var(--warm-dark);
+    border: 1px solid rgba(138, 129, 121, 0.2);
+    padding: 64px 56px;
+    margin-bottom: 32px;
+  }
+  .use-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--graphite-warm);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 28px;
+  }
+  .use-kicker::before {
+    content: "";
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--signal);
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  .use-h1 {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-variation-settings: 'opsz' 144, 'SOFT' 80;
+    font-weight: 500;
+    font-size: 88px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+    margin-bottom: 32px;
+    max-width: 920px;
+  }
+  .use-h1 em {
+    color: var(--signal);
+    font-style: italic;
+  }
+  .use-lede {
+    font-family: 'Inter', sans-serif;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--cream);
+    opacity: 0.85;
+    max-width: 640px;
+    font-weight: 400;
+  }
+
+  .use-footer-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .use-email, .use-business {
+    background: var(--warm-deep);
+    border: 1px solid rgba(138, 129, 121, 0.2);
+    padding: 32px 36px;
+  }
+  .use-email .block-label,
+  .use-business .block-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--graphite-warm);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 24px;
+  }
+  .use-email .signature-name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--cream);
+    margin-bottom: 2px;
+  }
+  .use-email .signature-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--graphite-warm);
+    margin-bottom: 12px;
+  }
+  .use-email .signature-logo {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--signal);
+    margin-bottom: 2px;
+  }
+  .use-email .signature-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--graphite-warm);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .use-business .card {
+    background: var(--warm-darker);
+    width: 100%;
+    aspect-ratio: 1.75 / 1;
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid rgba(138, 129, 121, 0.15);
+  }
+  .use-business .card .card-word {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-variation-settings: 'opsz' 144, 'SOFT' 100;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 1;
+    color: var(--signal);
+  }
+  .use-business .card .card-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--graphite-warm);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    line-height: 1.6;
+  }
+  .use-business .card .card-meta strong {
+    display: block;
+    color: var(--cream);
+    font-weight: 500;
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+
+  /* ===== Section 07: Greek + Π ===== */
+  .greek-row {
+    padding-left: 112px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .greek-cell {
+    background: var(--warm-deep);
+    border: 1px solid rgba(138, 129, 121, 0.2);
+    padding: 64px 48px;
+    text-align: center;
+  }
+  .greek-word {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-variation-settings: 'opsz' 144, 'SOFT' 100;
+    font-weight: 500;
+    font-size: 128px;
+    line-height: 1;
+    color: var(--signal);
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+  }
+  .greek-cell .greek-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--graphite-warm);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    line-height: 1.7;
+  }
+  .greek-cell .greek-label strong {
+    display: block;
+    color: var(--cream);
+    font-size: 11px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  /* ===== Licensing footer ===== */
+  .license-block {
+    padding-left: 112px;
+  }
+  .license-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+  .license-cell {
+    background: var(--warm-deep);
+    border: 1px solid rgba(138, 129, 121, 0.2);
+    padding: 28px 32px;
+  }
+  .license-cell .lic-name {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+  .license-cell .lic-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--graphite-warm);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    line-height: 1.8;
+  }
+  .license-cell .lic-meta strong {
+    color: var(--signal);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* ===== Doc footer ===== */
+  .doc-foot {
+    margin-top: 120px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(138, 129, 121, 0.2);
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--graphite-warm);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+  .doc-foot .logo-foot {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--signal);
+    letter-spacing: -0.01em;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="masthead">
+    <div class="title-group">
+      <div class="kicker">Phase 3 · Visual Identity · Typography System · v1</div>
+      <h1>The <em>Praxis</em> type system.</h1>
+    </div>
+    <div class="stamp">
+      <span class="locked">LOCKED</span><br>
+      2026-04-22<br>
+      Supersedes stress test v1
+    </div>
+  </header>
+
+  <!-- ============ 01 - THE WORDMARK ============ -->
+  <section>
+    <div class="section-head">
+      <div class="section-num">01</div>
+      <div>
+        <h2>The wordmark</h2>
+        <div class="section-sub">
+          Fraunces italic on Warm Dark is the primary brand expression. This is the only face, style, and surface that carries the name at full scale.
+        </div>
+      </div>
+    </div>
+
+    <div class="mark-hero">
+      <div class="wordmark">Praxis</div>
+    </div>
+
+    <div class="mark-spec-grid">
+      <div></div>
+      <div class="spec-cell"><strong>FACE</strong>Fraunces<br>variable</div>
+      <div class="spec-cell"><strong>STYLE</strong>Italic<br>wt 500</div>
+      <div class="spec-cell"><strong>OPSZ</strong>144<br>SOFT 100</div>
+      <div class="spec-cell"><strong>TRACKING</strong>−0.02em<br>hero / −0.01em body</div>
+    </div>
+  </section>
+
+  <!-- ============ 02 - SIZE LADDER ============ -->
+  <section>
+    <div class="section-head">
+      <div class="section-num">02</div>
+      <div>
+        <h2>Size ladder</h2>
+        <div class="section-sub">
+          Six sizes, opsz scaled to match. SOFT axis hardens as size drops to preserve legibility. The 10px caption is reserved for footer legal and dense meta - never prose.
+        </div>
+      </div>
+    </div>
+
+    <div class="ladder">
+      <div class="ladder-row">
+        <div class="ladder-size">120 PX</div>
+        <div class="ladder-word" style="font-size: 120px; font-variation-settings: 'opsz' 144, 'SOFT' 100; font-weight: 500;">Praxis</div>
+        <div class="ladder-usage">Hero wordmark</div>
+      </div>
+      <div class="ladder-row">
+        <div class="ladder-size">64 PX</div>
+        <div class="ladder-word" style="font-size: 64px; font-variation-settings: 'opsz' 144, 'SOFT' 80; font-weight: 500;">Praxis</div>
+        <div class="ladder-usage">Section head</div>
+      </div>
+      <div class="ladder-row">
+        <div class="ladder-size">32 PX</div>
+        <div class="ladder-word" style="font-size: 32px; font-variation-settings: 'opsz' 48, 'SOFT' 50; font-weight: 500;">Praxis</div>
+        <div class="ladder-usage">Sub head</div>
+      </div>
+      <div class="ladder-row">
+        <div class="ladder-size">20 PX</div>
+        <div class="ladder-word" style="font-size: 20px; font-variation-settings: 'opsz' 24, 'SOFT' 50; font-weight: 500;">Praxis</div>
+        <div class="ladder-usage">Body display</div>
+      </div>
+      <div class="ladder-row">
+        <div class="ladder-size">14 PX</div>
+        <div class="ladder-word" style="font-size: 14px; font-variation-settings: 'opsz' 14, 'SOFT' 0; font-weight: 600;">Praxis</div>
+        <div class="ladder-usage">Meta · byline</div>
+      </div>
+      <div class="ladder-row">
+        <div class="ladder-size">10 PX</div>
+        <div class="ladder-word" style="font-size: 10px; font-variation-settings: 'opsz' 9, 'SOFT' 0; font-weight: 700;">Praxis</div>
+        <div class="ladder-usage">Caption · footnote</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03 - AUTHORIZED TREATMENTS ============ -->
+  <section>
+    <div class="section-head">
+      <div class="section-num">03</div>
+      <div>
+        <h2>Authorized treatments</h2>
+        <div class="section-sub">
+          Six surface-and-color pairings. Any other combination is off-spec. Signal on Cream is specifically disallowed (too hot). Never on gradients.
+        </div>
+      </div>
+    </div>
+
+    <div class="treatments">
+      <div class="treatment-grid">
+        <div class="tr t1">
+          <div class="tr-num">01 · PRIMARY</div>
+          <div class="tr-word">Praxis</div>
+          <div class="tr-meta">
+            <strong>Signal on Warm Dark</strong>
+            Hero · nav · footer<br>
+            #A3FF12 on #2A2520
+          </div>
+        </div>
+        <div class="tr t2">
+          <div class="tr-num">02 · LONG-FORM</div>
+          <div class="tr-word">Praxis</div>
+          <div class="tr-meta">
+            <strong>Terracotta on Cream</strong>
+            Editorial · Playbooks<br>
+            #B8654A on #F5F0E8
+          </div>
+        </div>
+        <div class="tr t3">
+          <div class="tr-num">03 · SECTION</div>
+          <div class="tr-word">Praxis</div>
+          <div class="tr-meta">
+            <strong>Cream on Terracotta</strong>
+            Full-bleed section<br>
+            #F5F0E8 on #B8654A
+          </div>
+        </div>
+      </div>
+      <div class="treatment-grid" style="margin-top: 16px;">
+        <div class="tr t4">
+          <div class="tr-num">04 · INVERTED</div>
+          <div class="tr-word">Praxis</div>
+          <div class="tr-meta">
+            <strong>Terracotta Bright on Warm Darker</strong>
+            Terminal · technical<br>
+            #D67952 on #141210
+          </div>
+        </div>
+        <div class="tr t5">
+          <div class="tr-num">05 · ACCENT</div>
+          <div class="tr-word">Praxis</div>
+          <div class="tr-meta">
+            <strong>Terracotta Bright on Warm Dark</strong>
+            Secondary marketing<br>
+            #D67952 on #2A2520
+          </div>
+        </div>
+        <div class="tr t6">
+          <div class="tr-num">06 · NEUTRAL</div>
+          <div class="tr-word">Praxis</div>
+          <div class="tr-meta">
+            <strong>Warm Dark on Cream</strong>
+            Print · low-color<br>
+            #2A2520 on #F5F0E8
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 - TYPE STACK ============ -->
+  <section>
+    <div class="section-head">
+      <div class="section-num">04</div>
+      <div>
+        <h2>The type stack</h2>
+        <div class="section-sub">
+          Three faces, no substitutions. Fraunces carries display and wordmark. Inter handles everything that reads as a sentence. JetBrains Mono handles labels, meta, code, and kicker marks.
+        </div>
+      </div>
+    </div>
+
+    <div class="type-stack">
+
+      <div class="face">
+        <div class="face-meta">
+          <div class="face-name">Fraunces</div>
+          <div class="face-role">Display · Wordmark</div>
+          <div class="face-spec">
+            Italic only<br>
+            wt 400–700<br>
+            opsz 9..144<br>
+            SOFT scaled to size<br>
+            WONK 0 (locked)
+          </div>
+        </div>
+        <div class="face-samples">
+          <div class="fraunces-sample-lg">Applied AI for <em>operating</em> businesses.</div>
+          <div class="fraunces-sample-md">Scope the system before building it.</div>
+          <div class="fraunces-sample-sm">Published from New York · est. 04.2026</div>
+        </div>
+      </div>
+
+      <div class="face">
+        <div class="face-meta">
+          <div class="face-name" style="font-family: 'Inter', sans-serif; font-style: normal;">Inter</div>
+          <div class="face-role">Body · UI</div>
+          <div class="face-spec">
+            Regular 400<br>
+            Medium 500<br>
+            Semibold 600<br>
+            Line height 1.5 (body)<br>
+            1.6 (long-form)
+          </div>
+        </div>
+        <div class="face-samples">
+          <div class="inter-sample-lg">Praxis turns AI from a pilot project into an operational system. One decision point, one builder, one accountable partner. We ship runnable workflows with runbooks, not strategy decks.</div>
+          <div class="inter-sample-md">Book a Diagnostic · hello@studio.example</div>
+          <div class="inter-sample-sm">Diagnostic · Build · Embed · fixed-price engagements.</div>
+        </div>
+      </div>
+
+      <div class="face">
+        <div class="face-meta">
+          <div class="face-name" style="font-family: 'JetBrains Mono', monospace; font-style: normal; font-size: 26px;">JetBrains Mono</div>
+          <div class="face-role">Labels · Meta · Code</div>
+          <div class="face-spec">
+            Regular 400<br>
+            Medium 500<br>
+            Semibold 600<br>
+            Uppercase labels<br>
+            Letter-spacing 0.14em
+          </div>
+        </div>
+        <div class="face-samples">
+          <div class="mono-sample-lg">$ praxis build --workflow intake</div>
+          <div class="mono-sample-md">// One-week scoped review. Systems map, prioritized workflow<br>// candidates, build recommendation.</div>
+          <div class="mono-sample-sm">01 · DIAGNOSTIC · FIXED-PRICE · ONE WEEK</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ 05 - GREEK + Π ============ -->
+  <section>
+    <div class="section-head">
+      <div class="section-num">05</div>
+      <div>
+        <h2>Greek &amp; monogram</h2>
+        <div class="section-sub">
+          Fraunces italic handles the Greek set natively. The capital Π is the monogram starting point for favicon and avatar use. Full monogram exploration is the next Phase 3 deliverable.
+        </div>
+      </div>
+    </div>
+
+    <div class="greek-row">
+      <div class="greek-cell">
+        <div class="greek-word">πρᾶξις</div>
+        <div class="greek-label">
+          <strong>Brand origin mark</strong>
+          Greek · Fraunces italic · opsz 144
+        </div>
+      </div>
+      <div class="greek-cell">
+        <div class="greek-word" style="font-size: 200px;">Π</div>
+        <div class="greek-label">
+          <strong>Monogram starting point</strong>
+          Capital Pi · Fraunces italic · opsz 144
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 06 - IN USE ============ -->
+  <section>
+    <div class="section-head">
+      <div class="section-num">06</div>
+      <div>
+        <h2>In use</h2>
+        <div class="section-sub">
+          The system applied - nav, composition, email signature, business card. Each element respects the size ladder and the authorized treatment rules.
+        </div>
+      </div>
+    </div>
+
+    <div class="in-use">
+
+      <!-- nav -->
+      <div class="use-nav">
+        <div class="logo-nav">Praxis</div>
+        <div class="nav-links">
+          <span>Work</span>
+          <span>Playbooks</span>
+          <span>About</span>
+          <span class="cta">Book a Diagnostic</span>
+        </div>
+      </div>
+
+      <!-- composition -->
+      <div class="use-composition">
+        <div class="use-kicker">Applied AI Studio · NYC</div>
+        <div class="use-h1">Applied AI for <em>operating</em> businesses.</div>
+        <div class="use-lede">Praxis turns AI from a pilot project into an operational system. One decision point, one builder, one accountable partner. We ship runnable workflows with runbooks, not strategy decks.</div>
+      </div>
+
+      <!-- footer row: email + card -->
+      <div class="use-footer-row">
+        <div class="use-email">
+          <div class="block-label">Email signature</div>
+          <div class="signature-name">Alex Morgan</div>
+          <div class="signature-title">Founder</div>
+          <div class="signature-logo">Praxis</div>
+          <div class="signature-tag">Applied AI Studio · studio.example</div>
+        </div>
+        <div class="use-business">
+          <div class="block-label">Business card · front</div>
+          <div class="card">
+            <div class="card-word">Praxis</div>
+            <div class="card-meta">
+              <strong>Alex Morgan · Founder</strong>
+              hello@studio.example · New York
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ 07 - LICENSING ============ -->
+  <section>
+    <div class="section-head">
+      <div class="section-num">07</div>
+      <div>
+        <h2>Licensing</h2>
+        <div class="section-sub">
+          All three faces are open-source and free for commercial use. Serve via Google Fonts CDN or self-host with <span style="color: var(--cream);">font-display: swap</span>. Subset to Latin + Greek + extended punctuation.
+        </div>
+      </div>
+    </div>
+
+    <div class="license-block">
+      <div class="license-grid">
+        <div class="license-cell">
+          <div class="lic-name">Fraunces</div>
+          <div class="lic-meta">
+            <strong>OFL · FREE</strong>
+            Undercase Type<br>
+            Google Fonts
+          </div>
+        </div>
+        <div class="license-cell">
+          <div class="lic-name" style="font-family: 'Inter', sans-serif; font-style: normal;">Inter</div>
+          <div class="lic-meta">
+            <strong>OFL · FREE</strong>
+            Rasmus Andersson<br>
+            Google Fonts
+          </div>
+        </div>
+        <div class="license-cell">
+          <div class="lic-name" style="font-family: 'JetBrains Mono', monospace; font-style: normal; font-size: 20px;">JetBrains Mono</div>
+          <div class="lic-meta">
+            <strong>OFL · FREE</strong>
+            JetBrains<br>
+            Google Fonts
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DOC FOOTER ============ -->
+  <footer class="doc-foot">
+    <div>
+      <div class="logo-foot">Praxis</div>
+      <div style="margin-top: 6px;">foundations / typography.html</div>
+    </div>
+    <div style="text-align: right;">
+      Companion to typography.md<br>
+      Part of the Praxis Design System.
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

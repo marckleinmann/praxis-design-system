@@ -1,0 +1,915 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Praxis - Color System v1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Warm family */
+    --warm-50: #FCFAF6;
+    --warm-100: #F5F0E8;
+    --warm-200: #E8DFD2;
+    --warm-300: #D4C7B4;
+    --warm-400: #B0A18C;
+    --warm-500: #8A7C6A;
+    --warm-600: #5C5248;
+    --warm-700: #3D3630;
+    --warm-800: #2A2520;
+    --warm-900: #1C1814;
+    --warm-950: #141210;
+
+    /* Terracotta */
+    --terracotta-100: #F5D9C9;
+    --terracotta-300: #D67952;
+    --terracotta-500: #B8654A;
+    --terracotta-700: #8A4A35;
+    --terracotta-900: #5C2E1F;
+
+    /* Signal */
+    --signal-100: #E5FFB8;
+    --signal-300: #C4FF5E;
+    --signal-500: #A3FF12;
+    --signal-700: #7AC208;
+    --signal-900: #4D7B00;
+
+    /* Destructive - Refined: muted brick red, warm-biased */
+    --destructive-100: #F5D4D4;
+    --destructive-300: #E08080;
+    --destructive-500: #C94343;
+    --destructive-700: #8A2828;
+    --destructive-900: #3D0F10;
+
+    /* Success - Refined: dusty teal-green, warm-biased */
+    --success-100: #D4E8DF;
+    --success-300: #7FB19C;
+    --success-500: #3A7560;
+    --success-700: #1F4A3C;
+    --success-900: #0F241E;
+
+    /* Warning - Refined: dijon amber, muted */
+    --warning-100: #F0DCB8;
+    --warning-300: #D4AA6E;
+    --warning-500: #C28130;
+    --warning-700: #8A5A1A;
+    --warning-900: #3D2808;
+
+    /* Info - Refined: dusty denim blue */
+    --info-100: #D4DFE8;
+    --info-300: #7A95AE;
+    --info-500: #4A7090;
+    --info-700: #2A4A65;
+    --info-900: #10243A;
+
+    /* Button tier tokens (scarcity rule - see §2.6 in spec) */
+    --btn-hero-bg: var(--signal-500);
+    --btn-hero-fg: var(--warm-800);
+    --btn-primary-bg: var(--terracotta-500);
+    --btn-primary-fg: var(--warm-100);
+    --btn-destructive-bg: var(--destructive-500);
+    --btn-destructive-fg: var(--warm-100);
+    --btn-neutral-bg: var(--warm-700);
+    --btn-neutral-fg: var(--warm-100);
+
+    /* Semantic */
+    --bg: var(--warm-800);
+    --surface: var(--warm-700);
+    --surface-subtle: rgba(245, 240, 232, 0.03);
+    --text-primary: var(--warm-100);
+    --text-secondary: var(--warm-300);
+    --text-muted: var(--warm-500);
+    --text-signal: var(--signal-500);
+    --border-subtle: rgba(245, 240, 232, 0.08);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 80px 48px 120px; }
+
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--signal-500);
+    margin: 0 0 12px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 0;
+    font-size: 64px;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin: 0 0 20px;
+  }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-variation-settings: 'opsz' 72, 'SOFT' 75, 'WONK' 0;
+    font-size: 36px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin: 80px 0 12px;
+  }
+  h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 28px;
+  }
+  .sub {
+    font-size: 16px;
+    color: var(--text-primary);
+    opacity: 0.72;
+    max-width: 760px;
+    margin: 0 0 24px;
+  }
+  .section { padding-top: 32px; border-top: 1px solid var(--border-subtle); margin-top: 72px; }
+  .section:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+
+  /* ---------------- Palette swatch grid ---------------- */
+  .scale {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    gap: 4px;
+    margin-top: 20px;
+  }
+  .scale.accent { grid-template-columns: repeat(5, 1fr); max-width: 600px; }
+  .scale.semantic { grid-template-columns: repeat(5, 1fr); max-width: 600px; }
+
+  .swatch {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 4px;
+    position: relative;
+    min-height: 110px;
+  }
+  .swatch.canonical::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--signal-500);
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
+  }
+  .swatch-token {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+  .swatch-hex {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    opacity: 0.7;
+    line-height: 1;
+  }
+
+  /* Per-swatch text color depending on lightness */
+  .txt-dark { color: var(--warm-800); }
+  .txt-light { color: var(--warm-100); }
+
+  .legend {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    margin-top: 12px;
+  }
+  .legend-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--signal-500);
+  }
+
+  /* ---------------- Semantic token cards ---------------- */
+  .token-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .token-card {
+    background: var(--surface-subtle);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .token-card h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--signal-500);
+    margin: 0 0 14px;
+  }
+  .token-row {
+    display: grid;
+    grid-template-columns: 20px 1fr auto;
+    gap: 10px;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border-subtle);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+  }
+  .token-row:last-child { border-bottom: none; }
+  .token-chip {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .token-chip.rgba {
+    border: 1px solid var(--border);
+  }
+  .token-name { color: var(--text-primary); letter-spacing: 0.02em; }
+  .token-val { color: var(--text-muted); font-size: 10px; }
+
+  /* ---------------- Contrast table ---------------- */
+  .contrast-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 24px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+  }
+  .contrast-table th, .contrast-table td {
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .contrast-table th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--signal-500);
+  }
+  .contrast-swatch {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin-right: 8px;
+    border: 1px solid var(--border-subtle);
+  }
+  .pass { color: var(--success-300); }
+  .partial { color: var(--warning-300); }
+  .fail { color: var(--destructive-300); }
+  .ratio {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+  }
+
+  /* ---------------- Live demo surfaces ---------------- */
+  .demo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 24px;
+  }
+  .demo-card {
+    border-radius: 14px;
+    padding: 40px 32px;
+    min-height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .demo-card.surface-dark { background: var(--warm-800); color: var(--warm-100); border: 1px solid var(--border-subtle); }
+  .demo-card.surface-darker { background: var(--warm-950); color: var(--warm-100); }
+  .demo-card.surface-cream { background: var(--warm-100); color: var(--warm-800); }
+  .demo-card.surface-terracotta { background: var(--terracotta-500); color: var(--warm-100); }
+  .demo-card.surface-signal { background: var(--signal-500); color: var(--warm-800); }
+
+  .demo-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+  .demo-title {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    font-variation-settings: 'opsz' 48, 'SOFT' 75, 'WONK' 0;
+    margin: 20px 0 12px;
+  }
+  .demo-body {
+    font-size: 14px;
+    line-height: 1.55;
+    max-width: 320px;
+  }
+  .demo-signal-accent { color: var(--signal-500); }
+  .demo-terracotta-accent { color: var(--terracotta-300); }
+
+  /* ---------------- Semantic state demos ---------------- */
+  .state-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .state-card {
+    background: var(--surface-subtle);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .state-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .state-alert {
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .state-alert.destructive { background: var(--destructive-900); color: var(--destructive-300); border-left: 3px solid var(--destructive-500); }
+  .state-alert.success { background: var(--success-900); color: var(--success-300); border-left: 3px solid var(--success-500); }
+  .state-alert.warning { background: var(--warning-900); color: var(--warning-300); border-left: 3px solid var(--warning-500); }
+  .state-alert.info { background: var(--info-900); color: var(--info-300); border-left: 3px solid var(--info-500); }
+  .state-btn {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--warm-100);
+    cursor: pointer;
+    text-align: center;
+  }
+  .state-btn.destructive { background: var(--destructive-500); }
+  .state-btn.success { background: var(--success-500); }
+  .state-btn.warning { background: var(--warning-500); color: var(--warm-900); }
+  .state-btn.info { background: var(--info-500); }
+
+  /* ---------------- Logo test ---------------- */
+  .logo-pair-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .logo-pair {
+    padding: 28px 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  .logo-pair-lockup {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo-tile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 7px;
+    font-family: 'Fraunces', serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 1;
+    font-variation-settings: 'opsz' 36, 'SOFT' 50, 'WONK' 0;
+  }
+  .logo-wm {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    font-variation-settings: 'opsz' 36, 'SOFT' 75, 'WONK' 0;
+  }
+  .logo-pair-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  /* ---------------- Meta footer ---------------- */
+  .meta {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+  .meta b { color: var(--text-primary); font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="kicker">Praxis · Color System v1 · LOCKED · Revised 2026-04-22</p>
+  <h1>Palette, semantic tokens, contrast.</h1>
+  <p class="sub">Warm-family neutrals (11 steps) anchor the system. Terracotta and Signal carry brand accent. Four semantic UI families (destructive, success, warning, info) use the Refined direction: muted, warm-biased, Claude/Notion-adjacent. Button hierarchy follows a scarcity rule. Signal is reserved for logo and single hero CTA. Terracotta is the default primary. Full spec: <code style="color:var(--text-signal);">color.md</code>.</p>
+  <div class="legend"><span class="legend-dot"></span> signal dot = canonical brand value (already in use)</div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1 - Warm family                                      -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <h2>Warm family - neutrals</h2>
+    <h3>11-step scale · backgrounds · surfaces · text · borders</h3>
+
+    <div class="scale">
+      <div class="swatch txt-dark" style="background:#FCFAF6;"><span class="swatch-token">warm-50</span><span class="swatch-hex">#FCFAF6</span></div>
+      <div class="swatch canonical txt-dark" style="background:#F5F0E8;"><span class="swatch-token">warm-100</span><span class="swatch-hex">#F5F0E8 · Cream</span></div>
+      <div class="swatch txt-dark" style="background:#E8DFD2;"><span class="swatch-token">warm-200</span><span class="swatch-hex">#E8DFD2</span></div>
+      <div class="swatch txt-dark" style="background:#D4C7B4;"><span class="swatch-token">warm-300</span><span class="swatch-hex">#D4C7B4</span></div>
+      <div class="swatch txt-dark" style="background:#B0A18C;"><span class="swatch-token">warm-400</span><span class="swatch-hex">#B0A18C</span></div>
+      <div class="swatch txt-light" style="background:#8A7C6A;"><span class="swatch-token">warm-500</span><span class="swatch-hex">#8A7C6A</span></div>
+      <div class="swatch txt-light" style="background:#5C5248;"><span class="swatch-token">warm-600</span><span class="swatch-hex">#5C5248</span></div>
+      <div class="swatch txt-light" style="background:#3D3630;"><span class="swatch-token">warm-700</span><span class="swatch-hex">#3D3630</span></div>
+      <div class="swatch canonical txt-light" style="background:#2A2520;"><span class="swatch-token">warm-800</span><span class="swatch-hex">#2A2520 · W.Dark</span></div>
+      <div class="swatch txt-light" style="background:#1C1814;"><span class="swatch-token">warm-900</span><span class="swatch-hex">#1C1814</span></div>
+      <div class="swatch canonical txt-light" style="background:#141210;"><span class="swatch-token">warm-950</span><span class="swatch-hex">#141210 · Darker</span></div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2 - Brand accents                                    -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <h2>Brand accents</h2>
+    <h3>Terracotta - warmth · Signal - attention</h3>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px;">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-primary); margin-bottom:8px;">Terracotta</div>
+        <div class="scale accent">
+          <div class="swatch txt-dark" style="background:#F5D9C9;"><span class="swatch-token">t-100</span><span class="swatch-hex">#F5D9C9</span></div>
+          <div class="swatch canonical txt-light" style="background:#D67952;"><span class="swatch-token">t-300</span><span class="swatch-hex">#D67952 · Bright</span></div>
+          <div class="swatch canonical txt-light" style="background:#B8654A;"><span class="swatch-token">t-500</span><span class="swatch-hex">#B8654A · Base</span></div>
+          <div class="swatch txt-light" style="background:#8A4A35;"><span class="swatch-token">t-700</span><span class="swatch-hex">#8A4A35</span></div>
+          <div class="swatch txt-light" style="background:#5C2E1F;"><span class="swatch-token">t-900</span><span class="swatch-hex">#5C2E1F</span></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-primary); margin-bottom:8px;">Signal</div>
+        <div class="scale accent">
+          <div class="swatch txt-dark" style="background:#E5FFB8;"><span class="swatch-token">s-100</span><span class="swatch-hex">#E5FFB8</span></div>
+          <div class="swatch txt-dark" style="background:#C4FF5E;"><span class="swatch-token">s-300</span><span class="swatch-hex">#C4FF5E</span></div>
+          <div class="swatch canonical txt-dark" style="background:#A3FF12;"><span class="swatch-token">s-500</span><span class="swatch-hex">#A3FF12 · Signal</span></div>
+          <div class="swatch txt-dark" style="background:#7AC208;"><span class="swatch-token">s-700</span><span class="swatch-hex">#7AC208</span></div>
+          <div class="swatch txt-light" style="background:#4D7B00;"><span class="swatch-token">s-900</span><span class="swatch-hex">#4D7B00</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3 - Semantic UI                                      -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <h2>Semantic UI states</h2>
+    <h3>Refined direction · muted · warm-biased · Claude/Notion-adjacent</h3>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px;">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--destructive-300); margin-bottom:8px;">Destructive · brick red</div>
+        <div class="scale semantic">
+          <div class="swatch txt-dark" style="background:#F5D4D4;"><span class="swatch-token">d-100</span><span class="swatch-hex">#F5D4D4</span></div>
+          <div class="swatch txt-dark" style="background:#E08080;"><span class="swatch-token">d-300</span><span class="swatch-hex">#E08080</span></div>
+          <div class="swatch txt-light" style="background:#C94343;"><span class="swatch-token">d-500</span><span class="swatch-hex">#C94343</span></div>
+          <div class="swatch txt-light" style="background:#8A2828;"><span class="swatch-token">d-700</span><span class="swatch-hex">#8A2828</span></div>
+          <div class="swatch txt-light" style="background:#3D0F10;"><span class="swatch-token">d-900</span><span class="swatch-hex">#3D0F10</span></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--success-300); margin-bottom:8px;">Success · dusty teal-green</div>
+        <div class="scale semantic">
+          <div class="swatch txt-dark" style="background:#D4E8DF;"><span class="swatch-token">s-100</span><span class="swatch-hex">#D4E8DF</span></div>
+          <div class="swatch txt-dark" style="background:#7FB19C;"><span class="swatch-token">s-300</span><span class="swatch-hex">#7FB19C</span></div>
+          <div class="swatch txt-light" style="background:#3A7560;"><span class="swatch-token">s-500</span><span class="swatch-hex">#3A7560</span></div>
+          <div class="swatch txt-light" style="background:#1F4A3C;"><span class="swatch-token">s-700</span><span class="swatch-hex">#1F4A3C</span></div>
+          <div class="swatch txt-light" style="background:#0F241E;"><span class="swatch-token">s-900</span><span class="swatch-hex">#0F241E</span></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--warning-300); margin-bottom:8px;">Warning · dijon amber</div>
+        <div class="scale semantic">
+          <div class="swatch txt-dark" style="background:#F0DCB8;"><span class="swatch-token">w-100</span><span class="swatch-hex">#F0DCB8</span></div>
+          <div class="swatch txt-dark" style="background:#D4AA6E;"><span class="swatch-token">w-300</span><span class="swatch-hex">#D4AA6E</span></div>
+          <div class="swatch txt-light" style="background:#C28130;"><span class="swatch-token">w-500</span><span class="swatch-hex">#C28130</span></div>
+          <div class="swatch txt-light" style="background:#8A5A1A;"><span class="swatch-token">w-700</span><span class="swatch-hex">#8A5A1A</span></div>
+          <div class="swatch txt-light" style="background:#3D2808;"><span class="swatch-token">w-900</span><span class="swatch-hex">#3D2808</span></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--info-300); margin-bottom:8px;">Info · dusty denim</div>
+        <div class="scale semantic">
+          <div class="swatch txt-dark" style="background:#D4DFE8;"><span class="swatch-token">i-100</span><span class="swatch-hex">#D4DFE8</span></div>
+          <div class="swatch txt-dark" style="background:#7A95AE;"><span class="swatch-token">i-300</span><span class="swatch-hex">#7A95AE</span></div>
+          <div class="swatch txt-light" style="background:#4A7090;"><span class="swatch-token">i-500</span><span class="swatch-hex">#4A7090</span></div>
+          <div class="swatch txt-light" style="background:#2A4A65;"><span class="swatch-token">i-700</span><span class="swatch-hex">#2A4A65</span></div>
+          <div class="swatch txt-light" style="background:#10243A;"><span class="swatch-token">i-900</span><span class="swatch-hex">#10243A</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:32px; font-size:13px; color:var(--text-muted); max-width:760px;">Semantic states appear as alerts, badges, and status dots. Only destructive appears as a button fill. Success, warning, and info are <b style="color:var(--text-primary);">not</b> button colors. See §2.6 scarcity rule.</p>
+
+    <div class="state-row">
+      <div class="state-card">
+        <div class="state-label" style="color:var(--destructive-300);">destructive</div>
+        <div class="state-alert destructive">Failed to save changes.</div>
+        <button class="state-btn destructive">Delete project</button>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--text-muted); letter-spacing:0.06em;">alert + button fill</div>
+      </div>
+      <div class="state-card">
+        <div class="state-label" style="color:var(--success-300);">success</div>
+        <div class="state-alert success">Invoice sent to client.</div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--success-500);"></span>
+          <span style="font-size:12px; color:var(--success-300);">Active · synced</span>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--text-muted); letter-spacing:0.06em;">alert + status dot only</div>
+      </div>
+      <div class="state-card">
+        <div class="state-label" style="color:var(--warning-300);">warning</div>
+        <div class="state-alert warning">Token expires in 3 days.</div>
+        <div style="display:inline-flex; padding:4px 10px; border-radius:20px; background:var(--warning-900); color:var(--warning-300); font-size:11px; font-weight:500; width:fit-content;">Expiring soon</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--text-muted); letter-spacing:0.06em;">alert + badge only</div>
+      </div>
+      <div class="state-card">
+        <div class="state-label" style="color:var(--info-300);">info</div>
+        <div class="state-alert info">New playbook published.</div>
+        <div style="display:inline-flex; padding:4px 10px; border-radius:20px; background:var(--info-900); color:var(--info-300); font-size:11px; font-weight:500; width:fit-content;">New</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--text-muted); letter-spacing:0.06em;">alert + badge only</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3b - Button hierarchy (scarcity rule)                -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <h2>Button hierarchy. Scarcity rule.</h2>
+    <h3>Five tiers · Signal is rare · Terracotta is the default primary</h3>
+
+    <p class="sub" style="max-width:760px;">The logo uses Signal. The single hero CTA uses Signal. Everything else uses terracotta, brick red, ghost, or neutral. Most product screens have <b>zero</b> Signal buttons. If a screen has two Signal buttons, one is wrong.</p>
+
+    <div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:16px; margin-top:24px;">
+      <div style="background:var(--surface-subtle); border:1px solid var(--border-subtle); border-radius:12px; padding:20px; display:flex; flex-direction:column; gap:14px;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--signal-500);">1 · Hero</div>
+        <button style="padding:10px 14px; border-radius:8px; border:none; background:var(--btn-hero-bg); color:var(--btn-hero-fg); font-family:'Inter',sans-serif; font-size:13px; font-weight:600; cursor:pointer;">Book a diagnostic</button>
+        <div style="font-size:11px; color:var(--text-muted); line-height:1.5;">Signal. Once per screen, max. Landing-page CTA only.</div>
+      </div>
+      <div style="background:var(--surface-subtle); border:1px solid var(--border-subtle); border-radius:12px; padding:20px; display:flex; flex-direction:column; gap:14px;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--terracotta-300);">2 · Primary</div>
+        <button style="padding:10px 14px; border-radius:8px; border:none; background:var(--btn-primary-bg); color:var(--btn-primary-fg); font-family:'Inter',sans-serif; font-size:13px; font-weight:500; cursor:pointer;">Send proposal</button>
+        <div style="font-size:11px; color:var(--text-muted); line-height:1.5;">Terracotta. Default positive action in product surfaces.</div>
+      </div>
+      <div style="background:var(--surface-subtle); border:1px solid var(--border-subtle); border-radius:12px; padding:20px; display:flex; flex-direction:column; gap:14px;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--destructive-300);">3 · Destructive</div>
+        <button style="padding:10px 14px; border-radius:8px; border:none; background:var(--btn-destructive-bg); color:var(--btn-destructive-fg); font-family:'Inter',sans-serif; font-size:13px; font-weight:500; cursor:pointer;">Delete project</button>
+        <div style="font-size:11px; color:var(--text-muted); line-height:1.5;">Brick red. Irreversible or system-state-changing actions.</div>
+      </div>
+      <div style="background:var(--surface-subtle); border:1px solid var(--border-subtle); border-radius:12px; padding:20px; display:flex; flex-direction:column; gap:14px;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-secondary);">4 · Ghost</div>
+        <button style="padding:10px 14px; border-radius:8px; border:1px solid var(--border); background:transparent; color:var(--text-primary); font-family:'Inter',sans-serif; font-size:13px; font-weight:500; cursor:pointer;">Cancel</button>
+        <div style="font-size:11px; color:var(--text-muted); line-height:1.5;">Secondary or dismiss. Border + transparent fill.</div>
+      </div>
+      <div style="background:var(--surface-subtle); border:1px solid var(--border-subtle); border-radius:12px; padding:20px; display:flex; flex-direction:column; gap:14px;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-secondary);">5 · Neutral</div>
+        <button style="padding:10px 14px; border-radius:8px; border:none; background:var(--btn-neutral-bg); color:var(--btn-neutral-fg); font-family:'Inter',sans-serif; font-size:13px; font-weight:500; cursor:pointer;">Save draft</button>
+        <div style="font-size:11px; color:var(--text-muted); line-height:1.5;">Warm-700. Low-emphasis persist or submit.</div>
+      </div>
+    </div>
+
+    <!-- Hero mockup: Signal in context -->
+    <div style="margin-top:40px; padding:56px 48px; border-radius:14px; background:var(--warm-800); border:1px solid var(--border-subtle);">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--signal-500); margin-bottom:16px;">Where Signal lives · marketing hero</div>
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:24px;">
+        <span style="display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:6px; background:var(--signal-500); color:var(--warm-800); font-family:'Fraunces',serif; font-weight:600; font-size:22px; font-variation-settings:'opsz' 36,'SOFT' 50;">Π</span>
+        <span style="font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:20px; color:var(--warm-100); font-variation-settings:'opsz' 36,'SOFT' 75;">praxis</span>
+      </div>
+      <div style="font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:44px; line-height:1.1; letter-spacing:-0.01em; color:var(--warm-100); font-variation-settings:'opsz' 72,'SOFT' 75; max-width:680px; margin-bottom:20px;">Applied AI for operating businesses.</div>
+      <p style="font-size:16px; color:var(--text-primary); opacity:0.72; max-width:560px; margin:0 0 32px;">Praxis builds workflows that survive contact with real operations. Fixed-price diagnostics, builds, embeds.</p>
+      <div style="display:flex; gap:12px;">
+        <button style="padding:14px 22px; border-radius:8px; border:none; background:var(--signal-500); color:var(--warm-800); font-family:'Inter',sans-serif; font-size:14px; font-weight:600; cursor:pointer;">Book a diagnostic →</button>
+        <button style="padding:14px 22px; border-radius:8px; border:1px solid var(--border); background:transparent; color:var(--warm-100); font-family:'Inter',sans-serif; font-size:14px; font-weight:500; cursor:pointer;">See case studies</button>
+      </div>
+    </div>
+
+    <!-- Dashboard mockup: where Signal doesn't appear -->
+    <div style="margin-top:20px; padding:32px; border-radius:14px; background:var(--warm-950); border:1px solid var(--border-subtle);">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--terracotta-300); margin-bottom:16px;">Where Signal doesn't · product surface</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-bottom:24px;">
+        <div style="background:var(--warm-800); border:1px solid var(--border-subtle); border-radius:10px; padding:20px;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-muted); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:8px;">Revenue · MTD</div>
+          <div style="font-family:'Fraunces',serif; font-style:italic; font-size:28px; color:var(--warm-100); font-variation-settings:'opsz' 48,'SOFT' 75;">$42,800</div>
+          <div style="margin-top:8px; display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--success-500);"></span><span style="font-size:11px; color:var(--success-300);">+12% vs last month</span></div>
+        </div>
+        <div style="background:var(--warm-800); border:1px solid var(--border-subtle); border-radius:10px; padding:20px;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-muted); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:8px;">Open proposals</div>
+          <div style="font-family:'Fraunces',serif; font-style:italic; font-size:28px; color:var(--warm-100); font-variation-settings:'opsz' 48,'SOFT' 75;">7</div>
+          <div style="margin-top:8px; display:inline-flex; padding:3px 8px; border-radius:20px; background:var(--warning-900); color:var(--warning-300); font-size:10px; font-weight:500;">2 expiring</div>
+        </div>
+        <div style="background:var(--warm-800); border:1px solid var(--border-subtle); border-radius:10px; padding:20px;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-muted); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:8px;">Active builds</div>
+          <div style="font-family:'Fraunces',serif; font-style:italic; font-size:28px; color:var(--warm-100); font-variation-settings:'opsz' 48,'SOFT' 75;">4</div>
+          <div style="margin-top:8px; display:inline-flex; padding:3px 8px; border-radius:20px; background:var(--info-900); color:var(--info-300); font-size:10px; font-weight:500;">3 on track</div>
+        </div>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button style="padding:9px 16px; border-radius:7px; border:none; background:var(--terracotta-500); color:var(--warm-100); font-family:'Inter',sans-serif; font-size:13px; font-weight:500; cursor:pointer;">Send proposal</button>
+        <button style="padding:9px 16px; border-radius:7px; border:1px solid var(--border); background:transparent; color:var(--warm-100); font-family:'Inter',sans-serif; font-size:13px; font-weight:500; cursor:pointer;">Export report</button>
+        <button style="padding:9px 16px; border-radius:7px; border:none; background:var(--destructive-500); color:var(--warm-100); font-family:'Inter',sans-serif; font-size:13px; font-weight:500; cursor:pointer; margin-left:auto;">Archive project</button>
+      </div>
+      <p style="font-size:12px; color:var(--text-muted); margin:20px 0 0; font-style:italic;">Zero Signal buttons. This is correct. Signal belongs on the logo at the top of the chrome, not scattered through the dashboard.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4 - Semantic tokens                                  -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <h2>Semantic tokens</h2>
+    <h3>Layer 2 - components consume these only · dark-mode default</h3>
+
+    <div class="token-grid">
+
+      <div class="token-card">
+        <h4>Surfaces</h4>
+        <div class="token-row"><span class="token-chip" style="background:#2A2520;"></span><span class="token-name">--bg</span><span class="token-val">warm-800</span></div>
+        <div class="token-row"><span class="token-chip" style="background:#141210;"></span><span class="token-name">--bg-deeper</span><span class="token-val">warm-950</span></div>
+        <div class="token-row"><span class="token-chip" style="background:#3D3630;"></span><span class="token-name">--surface</span><span class="token-val">warm-700</span></div>
+        <div class="token-row"><span class="token-chip rgba" style="background:rgba(245,240,232,0.03);"></span><span class="token-name">--surface-subtle</span><span class="token-val">cream 3%</span></div>
+        <div class="token-row"><span class="token-chip" style="background:#5C5248;"></span><span class="token-name">--surface-elevated</span><span class="token-val">warm-600</span></div>
+      </div>
+
+      <div class="token-card">
+        <h4>Text</h4>
+        <div class="token-row"><span class="token-chip" style="background:#F5F0E8;"></span><span class="token-name">--text-primary</span><span class="token-val">warm-100</span></div>
+        <div class="token-row"><span class="token-chip" style="background:#D4C7B4;"></span><span class="token-name">--text-secondary</span><span class="token-val">warm-300</span></div>
+        <div class="token-row"><span class="token-chip" style="background:#B0A18C;"></span><span class="token-name">--text-tertiary</span><span class="token-val">warm-400</span></div>
+        <div class="token-row"><span class="token-chip" style="background:#8A7C6A;"></span><span class="token-name">--text-muted</span><span class="token-val">warm-500</span></div>
+        <div class="token-row"><span class="token-chip" style="background:#A3FF12;"></span><span class="token-name">--text-signal</span><span class="token-val">signal-500</span></div>
+        <div class="token-row"><span class="token-chip" style="background:#5C5248;"></span><span class="token-name">--text-disabled</span><span class="token-val">warm-600</span></div>
+      </div>
+
+      <div class="token-card">
+        <h4>Borders &amp; Brand</h4>
+        <div class="token-row"><span class="token-chip rgba" style="background:rgba(245,240,232,0.08);"></span><span class="token-name">--border-subtle</span><span class="token-val">cream 8%</span></div>
+        <div class="token-row"><span class="token-chip rgba" style="background:rgba(245,240,232,0.16);"></span><span class="token-name">--border</span><span class="token-val">cream 16%</span></div>
+        <div class="token-row"><span class="token-chip" style="background:#8A7C6A;"></span><span class="token-name">--border-emphasis</span><span class="token-val">warm-500</span></div>
+        <div class="token-row"><span class="token-chip" style="background:#A3FF12;"></span><span class="token-name">--brand-primary</span><span class="token-val">signal-500</span></div>
+        <div class="token-row"><span class="token-chip" style="background:#B8654A;"></span><span class="token-name">--brand-accent</span><span class="token-val">terracotta-500</span></div>
+        <div class="token-row"><span class="token-chip" style="background:#D67952;"></span><span class="token-name">--brand-accent-bright</span><span class="token-val">terracotta-300</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5 - WCAG contrast                                    -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <h2>WCAG contrast pairings</h2>
+    <h3>On the primary surface - Warm Dark · #2A2520</h3>
+
+    <table class="contrast-table">
+      <thead>
+        <tr>
+          <th>Foreground</th>
+          <th>Token</th>
+          <th>Ratio</th>
+          <th>AA</th>
+          <th>AAA</th>
+          <th>Use</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="contrast-swatch" style="background:#F5F0E8;"></span>Cream</td>
+          <td><code style="color:var(--text-muted);">warm-100</code></td>
+          <td class="ratio pass">13.5 : 1</td>
+          <td class="pass">✓</td>
+          <td class="pass">✓</td>
+          <td>Body text · default</td>
+        </tr>
+        <tr>
+          <td><span class="contrast-swatch" style="background:#A3FF12;"></span>Signal</td>
+          <td><code style="color:var(--text-muted);">signal-500</code></td>
+          <td class="ratio pass">12.3 : 1</td>
+          <td class="pass">✓</td>
+          <td class="pass">✓</td>
+          <td>Wordmark · brand accent</td>
+        </tr>
+        <tr>
+          <td><span class="contrast-swatch" style="background:#D4C7B4;"></span>Warm 300</td>
+          <td><code style="color:var(--text-muted);">warm-300</code></td>
+          <td class="ratio pass">8.2 : 1</td>
+          <td class="pass">✓</td>
+          <td class="pass">✓</td>
+          <td>Secondary body</td>
+        </tr>
+        <tr>
+          <td><span class="contrast-swatch" style="background:#B0A18C;"></span>Warm 400</td>
+          <td><code style="color:var(--text-muted);">warm-400</code></td>
+          <td class="ratio pass">5.1 : 1</td>
+          <td class="pass">✓</td>
+          <td class="fail">✗</td>
+          <td>Tertiary body · captions</td>
+        </tr>
+        <tr>
+          <td><span class="contrast-swatch" style="background:#D67952;"></span>Terracotta Bright</td>
+          <td><code style="color:var(--text-muted);">terracotta-300</code></td>
+          <td class="ratio pass">4.9 : 1</td>
+          <td class="pass">✓</td>
+          <td class="fail">✗</td>
+          <td>Accent heads · not body</td>
+        </tr>
+        <tr>
+          <td><span class="contrast-swatch" style="background:#8A7C6A;"></span>Warm 500 (muted)</td>
+          <td><code style="color:var(--text-muted);">warm-500</code></td>
+          <td class="ratio partial">3.2 : 1</td>
+          <td class="partial">✓ Large only</td>
+          <td class="fail">✗</td>
+          <td>Labels · meta · captions only</td>
+        </tr>
+        <tr>
+          <td><span class="contrast-swatch" style="background:#B8654A;"></span>Terracotta</td>
+          <td><code style="color:var(--text-muted);">terracotta-500</code></td>
+          <td class="ratio partial">3.7 : 1</td>
+          <td class="partial">✓ Large only</td>
+          <td class="fail">✗</td>
+          <td>Decorative · 18px+ only</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6 - Live surfaces                                    -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <h2>Live surfaces</h2>
+    <h3>The five authorized wordmark/surface pairings rendered</h3>
+
+    <div class="demo-grid">
+
+      <div class="demo-card surface-dark">
+        <div>
+          <span class="demo-label">surface · warm-800</span>
+          <div class="demo-title">Applied AI for <span class="demo-signal-accent">operating</span> businesses.</div>
+          <p class="demo-body">Praxis builds workflows that survive contact with real operations. <span class="demo-signal-accent">Signal</span> as accent. Cream as body.</p>
+        </div>
+      </div>
+
+      <div class="demo-card surface-darker">
+        <div>
+          <span class="demo-label" style="color:var(--terracotta-300);">surface · warm-950</span>
+          <div class="demo-title" style="color:var(--terracotta-300);">Terminal surface.</div>
+          <p class="demo-body">Used for code blocks, terminal screenshots, technical surfaces. <span class="demo-terracotta-accent">Terracotta bright</span> carries accent here.</p>
+        </div>
+      </div>
+
+      <div class="demo-card surface-cream">
+        <div>
+          <span class="demo-label" style="color:var(--terracotta-700);">surface · warm-100</span>
+          <div class="demo-title" style="color:var(--terracotta-500);">Editorial reading.</div>
+          <p class="demo-body" style="color:var(--warm-800);">Long-form reading surface. Print. Case study bodies. Warm 800 on Cream. Terracotta as accent color.</p>
+        </div>
+      </div>
+
+      <div class="demo-card surface-terracotta">
+        <div>
+          <span class="demo-label">surface · terracotta-500</span>
+          <div class="demo-title">Section accent.</div>
+          <p class="demo-body">Full-bleed section surfaces. Mid-scroll moments. Cream body on Terracotta. Sparingly - maybe one section per page.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7 - Logo on every surface                            -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <h2>Mark on every authorized surface</h2>
+    <h3>Five approved surface/mark pairings from Logo v1 § 4</h3>
+
+    <div class="logo-pair-row">
+
+      <div class="logo-pair" style="background:var(--warm-800);">
+        <div class="logo-pair-lockup">
+          <span class="logo-tile" style="background:var(--signal-500); color:var(--warm-800);">Π</span>
+          <span class="logo-wm" style="color:var(--warm-100);">praxis</span>
+        </div>
+        <div class="logo-pair-label" style="color:var(--warm-400);">warm-800 · primary</div>
+      </div>
+
+      <div class="logo-pair" style="background:var(--warm-800);">
+        <div class="logo-pair-lockup">
+          <span class="logo-tile" style="background:var(--signal-500); color:var(--warm-800);">Π</span>
+          <span class="logo-wm" style="color:var(--signal-500);">praxis</span>
+        </div>
+        <div class="logo-pair-label" style="color:var(--warm-400);">warm-800 · high-signal</div>
+      </div>
+
+      <div class="logo-pair" style="background:var(--warm-100);">
+        <div class="logo-pair-lockup">
+          <span class="logo-tile" style="background:var(--warm-800); color:var(--warm-100);">Π</span>
+          <span class="logo-wm" style="color:var(--warm-800);">praxis</span>
+        </div>
+        <div class="logo-pair-label" style="color:var(--warm-600);">warm-100 · print</div>
+      </div>
+
+      <div class="logo-pair" style="background:var(--terracotta-500);">
+        <div class="logo-pair-lockup">
+          <span class="logo-tile" style="background:var(--warm-100); color:var(--terracotta-500);">Π</span>
+          <span class="logo-wm" style="color:var(--warm-100);">praxis</span>
+        </div>
+        <div class="logo-pair-label" style="color:var(--terracotta-100);">terracotta · section</div>
+      </div>
+
+      <div class="logo-pair" style="background:var(--warm-950);">
+        <div class="logo-pair-lockup">
+          <span class="logo-tile" style="background:var(--terracotta-300); color:var(--warm-950);">Π</span>
+          <span class="logo-wm" style="color:var(--terracotta-300);">praxis</span>
+        </div>
+        <div class="logo-pair-label" style="color:var(--warm-500);">warm-950 · terminal</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Meta footer -->
+  <div class="meta">
+    <span><b>v1 · revised</b></span>
+    <span>Build · 2026-04-22</span>
+    <span>Canonical spec · <b>color.md</b></span>
+    <span>Companions · <b>typography.md · logo.md</b></span>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,962 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Praxis · Card v1</title>
+<style>
+  :root {
+    /* Warm neutrals */
+    --warm-50: #FCFAF6;
+    --warm-100: #F5F0E8;
+    --warm-200: #E8DFD2;
+    --warm-300: #D4C7B4;
+    --warm-400: #B0A18C;
+    --warm-500: #8A7C6A;
+    --warm-600: #5C5248;
+    --warm-700: #3D3630;
+    --warm-800: #2A2520;
+    --warm-900: #1C1814;
+    --warm-950: #141210;
+
+    /* Signal */
+    --signal-500: #A3FF12;
+    --signal-700: #6FA80B;
+    --signal-900: #2F4504;
+
+    /* Terracotta */
+    --terracotta-500: #B8654A;
+    --terracotta-700: #7A3E2A;
+
+    /* Destructive */
+    --destructive-500: #C94343;
+    --destructive-700: #8A2828;
+
+    /* Semantic */
+    --bg: var(--warm-800);
+    --surface: var(--warm-700);
+    --surface-subtle: rgba(245, 240, 232, 0.03);
+    --text-primary: var(--warm-100);
+    --text-secondary: var(--warm-300);
+    --text-muted: var(--warm-500);
+    --text-signal: var(--signal-500);
+    --border-subtle: rgba(245, 240, 232, 0.08);
+
+    /* Button tokens */
+    --btn-hero-bg: var(--signal-500);
+    --btn-hero-fg: var(--warm-800);
+    --btn-primary-bg: var(--terracotta-500);
+    --btn-primary-fg: var(--warm-100);
+    --btn-destructive-bg: var(--destructive-500);
+    --btn-destructive-fg: var(--warm-100);
+    --btn-neutral-bg: var(--warm-700);
+    --btn-neutral-fg: var(--warm-100);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Page container */
+  .page { max-width: 1200px; margin: 0 auto; padding: 64px 48px 96px; }
+
+  /* Page header */
+  .page-header { margin-bottom: 72px; }
+  .kicker {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+    color: var(--text-primary);
+  }
+  .sub {
+    font-size: 16px;
+    color: var(--text-secondary);
+    max-width: 640px;
+    line-height: 1.5;
+  }
+  .meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  /* Section */
+  section { margin-bottom: 64px; }
+  .section-kicker {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin: 0 0 8px;
+    color: var(--text-primary);
+  }
+  .section-intro {
+    font-size: 14px;
+    color: var(--text-secondary);
+    max-width: 720px;
+    margin-bottom: 32px;
+  }
+
+  /* Grids */
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .grid-sizes { display: grid; grid-template-columns: 1fr 1.15fr 1.35fr; gap: 16px; align-items: start; }
+
+  /* Variant label above sample */
+  .sample-label {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .sample-spec {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    font-family: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+  }
+
+  /* ============ CARD COMPONENT ============ */
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: var(--surface);
+    overflow: hidden;
+    transition: background 120ms ease, border-color 120ms ease;
+  }
+
+  .card-sm { padding: 12px; gap: 8px; }
+  .card-md { padding: 16px; gap: 12px; }
+  .card-lg { padding: 24px; gap: 16px; }
+
+  .card-flat     { background: var(--surface); }
+  .card-outlined { background: transparent; border-color: var(--border-subtle); }
+  .card-subtle   { background: var(--surface-subtle); }
+  .card-feature  { background: var(--surface); border-color: rgba(163, 255, 18, 0.3); }
+
+  .card-interactive { cursor: pointer; }
+  .card-interactive:hover { border-color: rgba(163, 255, 18, 0.2); }
+  .card-interactive:focus-visible {
+    outline: 2px solid rgba(163, 255, 18, 0.4);
+    outline-offset: 2px;
+  }
+  .card-selected { border-color: rgba(163, 255, 18, 0.4); }
+  .card-disabled { opacity: 0.4; pointer-events: none; cursor: not-allowed; }
+
+  /* Demo-only: fake hover/focus states via explicit classes */
+  .demo-hover { border-color: rgba(163, 255, 18, 0.2); }
+  .demo-focus {
+    outline: 2px solid rgba(163, 255, 18, 0.4);
+    outline-offset: 2px;
+  }
+
+  /* Slots */
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .card-header-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+  .card-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .card-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+    margin: 0;
+  }
+  .card-subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+  .card-header-action { flex-shrink: 0; }
+
+  .card-body {
+    color: var(--text-primary);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .card-body.muted { color: var(--text-secondary); }
+
+  .card-media { overflow: hidden; }
+  .card-sm .card-media { margin: -12px -12px 0; }
+  .card-md .card-media { margin: -16px -16px 0; }
+  .card-lg .card-media { margin: -24px -24px 0; }
+  .card-media-fake {
+    display: block;
+    width: 100%;
+    height: 120px;
+    background: linear-gradient(135deg, var(--warm-600) 0%, var(--warm-800) 100%);
+    position: relative;
+  }
+  .card-media-fake::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 30% 40%, rgba(163, 255, 18, 0.15), transparent 50%);
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .card-footer-divided { padding-top: 12px; border-top: 1px solid var(--border-subtle); }
+  .card-footer-meta { font-size: 12px; color: var(--text-muted); }
+  .card-footer-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+  /* ============ BUTTON (from Button v1) ============ */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 120ms ease, opacity 120ms ease;
+    user-select: none;
+    white-space: nowrap;
+  }
+  .btn-sm { height: 28px; padding: 0 10px; font-size: 12px; gap: 6px; }
+  .btn-md { height: 32px; padding: 0 12px; font-size: 13px; }
+  .btn-primary { background: var(--btn-primary-bg); color: var(--btn-primary-fg); }
+  .btn-ghost { background: transparent; color: var(--text-primary); border-color: var(--border-subtle); }
+  .btn-ghost:hover { background: rgba(245, 240, 232, 0.04); }
+  .btn-neutral { background: var(--btn-neutral-bg); color: var(--btn-neutral-fg); border-color: var(--border-subtle); }
+  .btn-icon.btn-sm { width: 28px; padding: 0; }
+
+  /* Skeleton */
+  .skeleton {
+    border-radius: 4px;
+    background: rgba(245, 240, 232, 0.06);
+    animation: pulse 0.8s ease-in-out infinite alternate;
+  }
+  @keyframes pulse { to { background: rgba(245, 240, 232, 0.12); } }
+  .skel-title { height: 16px; width: 60%; }
+  .skel-line  { height: 12px; width: 100%; }
+  .skel-short { height: 12px; width: 70%; }
+
+  /* Badge */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    height: 20px;
+    padding: 0 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    background: rgba(163, 255, 18, 0.12);
+    color: var(--signal-500);
+    border: 1px solid rgba(163, 255, 18, 0.2);
+  }
+  .badge-muted {
+    background: rgba(245, 240, 232, 0.06);
+    color: var(--text-muted);
+    border-color: var(--border-subtle);
+  }
+
+  /* Metric card content */
+  .metric {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+  }
+  .metric-delta {
+    font-size: 12px;
+    color: var(--signal-500);
+    font-family: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+  }
+  .metric-delta.neg { color: #E08080; }
+
+  /* Icon button (for header trailing) */
+  .icon-btn {
+    width: 28px; height: 28px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 6px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .icon-btn:hover { background: rgba(245, 240, 232, 0.04); color: var(--text-primary); }
+
+  /* Dashboard mockup container */
+  .mockup {
+    background: var(--bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .mockup-topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .mockup-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 22px;
+    font-weight: 500;
+  }
+
+  /* State demo label */
+  .state-demo { position: relative; }
+  .state-tag {
+    position: absolute;
+    top: -8px;
+    left: 12px;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--bg);
+    color: var(--text-muted);
+    padding: 2px 6px;
+  }
+
+  /* Do / Don't */
+  .rules { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .rules h3 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 18px;
+    margin: 0 0 12px;
+    font-weight: 500;
+  }
+  .rules ul { margin: 0; padding-left: 18px; color: var(--text-secondary); font-size: 13px; line-height: 1.7; }
+  .rules ul li { margin-bottom: 4px; }
+
+  /* Scarcity demo overlay */
+  .scarcity-demo { position: relative; }
+  .scarcity-label {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  .label-good { background: rgba(163, 255, 18, 0.12); color: var(--signal-500); border: 1px solid rgba(163, 255, 18, 0.25); }
+  .label-bad  { background: rgba(201, 67, 67, 0.12); color: #E08080; border: 1px solid rgba(201, 67, 67, 0.25); }
+
+  .scarcity-block {
+    padding: 24px;
+    background: var(--warm-900);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+  }
+  .scarcity-block-title {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Page header -->
+  <header class="page-header">
+    <div class="kicker">Praxis Design System · Component · Card v1</div>
+    <h1>Card.<br>The content surface.</h1>
+    <p class="sub">Four variants. Three sizes. Six states. Four slots. Every content grouping in the system composes from this contract. Specialized cards build on top.</p>
+    <div class="meta">
+      <span>Locked 2026-04-22</span>
+      <span>Companions: color.md · typography.md · button.md</span>
+      <span>Spec: card.md</span>
+    </div>
+  </header>
+
+  <!-- 1. Variant overview -->
+  <section>
+    <div class="section-kicker">§1 · Variants</div>
+    <h2>Four variants.</h2>
+    <p class="section-intro">Flat is the workhorse. Outlined for nested cards. Subtle for low-emphasis groupings. Feature for the single attention card per view.</p>
+
+    <div class="grid-4">
+      <div>
+        <div class="sample-label">Flat</div>
+        <div class="card card-flat card-md">
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-title">Active workflows</div>
+              <div class="card-subtitle">Synced 2 minutes ago</div>
+            </div>
+          </div>
+          <div class="card-body muted">All pipelines green. Last run completed in 4.2s.</div>
+        </div>
+        <div class="sample-spec">bg: --surface · no border</div>
+      </div>
+
+      <div>
+        <div class="sample-label">Outlined</div>
+        <div class="card card-outlined card-md">
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-title">Nested detail</div>
+              <div class="card-subtitle">For cards inside cards</div>
+            </div>
+          </div>
+          <div class="card-body muted">Transparent bg with 1px border. Use when elevation would double-stack.</div>
+        </div>
+        <div class="sample-spec">bg: transparent · 1px border-subtle</div>
+      </div>
+
+      <div>
+        <div class="sample-label">Subtle</div>
+        <div class="card card-subtle card-md">
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-title">Sidebar note</div>
+              <div class="card-subtitle">Low-emphasis grouping</div>
+            </div>
+          </div>
+          <div class="card-body muted">Barely-there fill. Informational asides, help tips, secondary content.</div>
+        </div>
+        <div class="sample-spec">bg: --surface-subtle · no border</div>
+      </div>
+
+      <div>
+        <div class="sample-label">Feature</div>
+        <div class="card card-feature card-md">
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-eyebrow">Focus</div>
+              <div class="card-title">Today's priority</div>
+              <div class="card-subtitle">Ship Card v1</div>
+            </div>
+          </div>
+          <div class="card-body muted">One per view, max. The attention anchor. Scarcity rule applies.</div>
+        </div>
+        <div class="sample-spec">bg: --surface · signal 30% border</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Sizes -->
+  <section>
+    <div class="section-kicker">§2 · Sizes</div>
+    <h2>Three sizes. 8px radius.</h2>
+    <p class="section-intro">sm for dense grids and metric tiles. md is the default. lg for marketing surfaces and feature callouts. Radius stays at 8px across sizes.</p>
+
+    <div class="grid-sizes">
+      <div>
+        <div class="sample-label">sm · 12px padding</div>
+        <div class="card card-flat card-sm">
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-title">Dense grid</div>
+            </div>
+          </div>
+          <div class="card-body muted">Metric tiles, list previews.</div>
+        </div>
+        <div class="sample-spec">pad 12 · gap 8 · r 8</div>
+      </div>
+
+      <div>
+        <div class="sample-label">md · 16px padding · default</div>
+        <div class="card card-flat card-md">
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-title">Default</div>
+              <div class="card-subtitle">Dashboards, settings, most UI</div>
+            </div>
+          </div>
+          <div class="card-body muted">Works for the majority of product surfaces. Start here.</div>
+        </div>
+        <div class="sample-spec">pad 16 · gap 12 · r 8</div>
+      </div>
+
+      <div>
+        <div class="sample-label">lg · 24px padding</div>
+        <div class="card card-flat card-lg">
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-eyebrow">Marketing</div>
+              <div class="card-title">Feature callout</div>
+              <div class="card-subtitle">Detail pages and landing surfaces</div>
+            </div>
+          </div>
+          <div class="card-body muted">More breathing room. Use when the card is the content, not just a container.</div>
+        </div>
+        <div class="sample-spec">pad 24 · gap 16 · r 8</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. States -->
+  <section>
+    <div class="section-kicker">§3 · States</div>
+    <h2>Six states.</h2>
+    <p class="section-intro">States apply to interactive cards. Static cards have only default. Hover, focus, and selected use the signal accent at different opacities. Matches the button focus ring contract.</p>
+
+    <div class="grid-3">
+
+      <div class="state-demo">
+        <div class="sample-label">default</div>
+        <div class="card card-flat card-md card-interactive">
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-title">Tap to open</div>
+              <div class="card-subtitle">Clickable card, no interaction yet</div>
+            </div>
+          </div>
+          <div class="card-body muted">Base styling. Cursor pointer indicates interactivity.</div>
+        </div>
+      </div>
+
+      <div class="state-demo">
+        <div class="sample-label">hover</div>
+        <div class="card card-flat card-md card-interactive demo-hover">
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-title">Tap to open</div>
+              <div class="card-subtitle">Border hints with signal at 20%</div>
+            </div>
+          </div>
+          <div class="card-body muted">Bg unchanged. Border-color shifts to signal hint.</div>
+        </div>
+      </div>
+
+      <div class="state-demo">
+        <div class="sample-label">focus-visible</div>
+        <div class="card card-flat card-md card-interactive demo-focus">
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-title">Tap to open</div>
+              <div class="card-subtitle">Keyboard focus ring</div>
+            </div>
+          </div>
+          <div class="card-body muted">2px signal 40% ring, 2px offset. Keyboard only, never mouse.</div>
+        </div>
+      </div>
+
+      <div class="state-demo">
+        <div class="sample-label">selected</div>
+        <div class="card card-flat card-md card-interactive card-selected">
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-title">Tap to open</div>
+              <div class="card-subtitle">Persistent signal border at 40%</div>
+            </div>
+          </div>
+          <div class="card-body muted">Single-select lists, active filter, current step.</div>
+        </div>
+      </div>
+
+      <div class="state-demo">
+        <div class="sample-label">disabled</div>
+        <div class="card card-flat card-md card-interactive card-disabled">
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-title">Tap to open</div>
+              <div class="card-subtitle">Not available</div>
+            </div>
+          </div>
+          <div class="card-body muted">40% opacity, pointer-events none.</div>
+        </div>
+      </div>
+
+      <div class="state-demo">
+        <div class="sample-label">loading</div>
+        <div class="card card-flat card-md" aria-busy="true">
+          <div class="skeleton skel-title" aria-hidden="true"></div>
+          <div class="skeleton skel-line" aria-hidden="true"></div>
+          <div class="skeleton skel-short" aria-hidden="true"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4. Slot composition -->
+  <section>
+    <div class="section-kicker">§4 · Slot composition</div>
+    <h2>Four slots. Body required.</h2>
+    <p class="section-intro">Media, header, body, footer. Mix as needed. Media bleeds to card edges. Header trailing slot holds one item. Footer meta left, actions right.</p>
+
+    <div class="grid-3">
+
+      <!-- Basic: title + body -->
+      <div>
+        <div class="sample-label">Header + body</div>
+        <div class="card card-flat card-md">
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-title">Simple card</div>
+              <div class="card-subtitle">Title and supporting line</div>
+            </div>
+          </div>
+          <div class="card-body muted">Most common shape. Group information under a clear label.</div>
+        </div>
+      </div>
+
+      <!-- Header action -->
+      <div>
+        <div class="sample-label">Header trailing action</div>
+        <div class="card card-flat card-md">
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-title">Workflow status</div>
+              <div class="card-subtitle">Last run 4 min ago</div>
+            </div>
+            <div class="card-header-action">
+              <button class="icon-btn" aria-label="More options">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="card-body muted">One trailing item. Icon button or badge. Second actions go in footer.</div>
+        </div>
+      </div>
+
+      <!-- Badge header -->
+      <div>
+        <div class="sample-label">Header with badge</div>
+        <div class="card card-flat card-md">
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-title">Pipeline sync</div>
+              <div class="card-subtitle">Running every 15 minutes</div>
+            </div>
+            <div class="card-header-action">
+              <span class="badge">Live</span>
+            </div>
+          </div>
+          <div class="card-body muted">Status badge in the trailing slot. Signal for active, muted for idle.</div>
+        </div>
+      </div>
+
+      <!-- With media -->
+      <div>
+        <div class="sample-label">With media</div>
+        <div class="card card-flat card-md">
+          <div class="card-media">
+            <div class="card-media-fake" aria-hidden="true"></div>
+          </div>
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-title">Media card</div>
+              <div class="card-subtitle">Bleeds to card edges</div>
+            </div>
+          </div>
+          <div class="card-body muted">Negative margin equal to padding. Always the top slot.</div>
+        </div>
+      </div>
+
+      <!-- With footer -->
+      <div>
+        <div class="sample-label">With footer</div>
+        <div class="card card-flat card-md">
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-title">Proposal draft</div>
+              <div class="card-subtitle">Ready for review</div>
+            </div>
+          </div>
+          <div class="card-body muted">Meta left, actions right. Use btn-sm and ghost/primary pairing.</div>
+          <div class="card-footer">
+            <div class="card-footer-meta">2 hours ago · Marc</div>
+            <div class="card-footer-actions">
+              <button class="btn btn-ghost btn-sm">Dismiss</button>
+              <button class="btn btn-primary btn-sm">View</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metric card -->
+      <div>
+        <div class="sample-label">Metric composition</div>
+        <div class="card card-flat card-md">
+          <div class="card-eyebrow">Open proposals</div>
+          <div class="metric">12</div>
+          <div class="metric-delta">+3 this week</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5. Scarcity rule demo -->
+  <section>
+    <div class="section-kicker">§5 · Scarcity rule</div>
+    <h2>One Feature card per view.</h2>
+    <p class="section-intro">Feature earns attention. Two Feature cards on one screen cancels the hierarchy: everything competes, nothing wins.</p>
+
+    <div class="grid-2">
+
+      <!-- Good -->
+      <div class="scarcity-demo">
+        <div class="scarcity-block">
+          <div class="scarcity-block-title">Correct · one Feature</div>
+          <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 12px;">
+            <div class="card card-feature card-md">
+              <div class="card-eyebrow">Focus</div>
+              <div class="card-title">Ship Card v1</div>
+              <div class="card-body muted">The single attention card.</div>
+            </div>
+            <div class="card card-flat card-md">
+              <div class="card-title">Queue</div>
+              <div class="card-body muted" style="font-size: 13px;">8 items</div>
+            </div>
+            <div class="card card-flat card-md">
+              <div class="card-title">Inbox</div>
+              <div class="card-body muted" style="font-size: 13px;">3 unread</div>
+            </div>
+            <div class="card card-flat card-md">
+              <div class="card-title">Drafts</div>
+              <div class="card-body muted" style="font-size: 13px;">5 pending</div>
+            </div>
+          </div>
+        </div>
+        <div class="scarcity-label label-good">Good</div>
+      </div>
+
+      <!-- Bad -->
+      <div class="scarcity-demo">
+        <div class="scarcity-block">
+          <div class="scarcity-block-title">Wrong · three Features</div>
+          <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 12px;">
+            <div class="card card-feature card-md">
+              <div class="card-eyebrow">Focus</div>
+              <div class="card-title">Ship Card v1</div>
+              <div class="card-body muted">Which one is the priority?</div>
+            </div>
+            <div class="card card-feature card-md">
+              <div class="card-title">Queue</div>
+              <div class="card-body muted" style="font-size: 13px;">8 items</div>
+            </div>
+            <div class="card card-feature card-md">
+              <div class="card-title">Inbox</div>
+              <div class="card-body muted" style="font-size: 13px;">3 unread</div>
+            </div>
+            <div class="card card-flat card-md">
+              <div class="card-title">Drafts</div>
+              <div class="card-body muted" style="font-size: 13px;">5 pending</div>
+            </div>
+          </div>
+        </div>
+        <div class="scarcity-label label-bad">Don't</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 6. Dashboard mockup -->
+  <section>
+    <div class="section-kicker">§6 · In context</div>
+    <h2>Dashboard. Realistic mix.</h2>
+    <p class="section-intro">Metric row of Flat cards. One Feature card anchoring the focus area. An Outlined card nested inside a larger Flat. A Subtle aside on the right. Zero shadows.</p>
+
+    <div class="mockup">
+      <div class="mockup-topbar">
+        <div>
+          <div class="card-eyebrow" style="margin-bottom: 4px;">Praxis · Dashboard</div>
+          <div class="mockup-title">Wednesday, April 22</div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-ghost btn-sm">Export</button>
+          <button class="btn btn-primary btn-sm">New proposal</button>
+        </div>
+      </div>
+
+      <!-- Metric row (sm flat cards) -->
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px;">
+        <div class="card card-flat card-sm">
+          <div class="card-eyebrow">Active</div>
+          <div class="metric" style="font-size: 28px;">8</div>
+          <div class="metric-delta">+2 wk</div>
+        </div>
+        <div class="card card-flat card-sm">
+          <div class="card-eyebrow">Pipeline</div>
+          <div class="metric" style="font-size: 28px;">$42k</div>
+          <div class="metric-delta">+$8k</div>
+        </div>
+        <div class="card card-flat card-sm">
+          <div class="card-eyebrow">Win rate</div>
+          <div class="metric" style="font-size: 28px;">38%</div>
+          <div class="metric-delta neg">-4%</div>
+        </div>
+        <div class="card card-flat card-sm">
+          <div class="card-eyebrow">Avg cycle</div>
+          <div class="metric" style="font-size: 28px;">9d</div>
+          <div class="metric-delta">-1d</div>
+        </div>
+      </div>
+
+      <!-- Main row: feature + flat with nested outlined + subtle -->
+      <div style="display: grid; grid-template-columns: 1.3fr 1fr 0.7fr; gap: 12px;">
+
+        <!-- Feature card with nested outlined cards -->
+        <div class="card card-feature card-md">
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-eyebrow">Today's focus</div>
+              <div class="card-title">Acme · Portal build</div>
+              <div class="card-subtitle">Ship MVP by end of day</div>
+            </div>
+            <div class="card-header-action">
+              <span class="badge">Active</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card card-outlined card-sm" style="margin-bottom: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px;">
+                <div>
+                  <div class="card-title" style="font-size: 13px;">Webhook handler</div>
+                  <div class="card-subtitle" style="font-size: 12px;">In review</div>
+                </div>
+                <span class="badge badge-muted">2h</span>
+              </div>
+            </div>
+            <div class="card card-outlined card-sm">
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px;">
+                <div>
+                  <div class="card-title" style="font-size: 13px;">Proposal letter template</div>
+                  <div class="card-subtitle" style="font-size: 12px;">Ready to test</div>
+                </div>
+                <span class="badge">Ready</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="card-footer-meta">Updated 12 min ago</div>
+            <div class="card-footer-actions">
+              <button class="btn btn-ghost btn-sm">Details</button>
+              <button class="btn btn-primary btn-sm">Open</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Flat card: recent activity -->
+        <div class="card card-flat card-md">
+          <div class="card-header">
+            <div class="card-header-text">
+              <div class="card-title">Recent activity</div>
+              <div class="card-subtitle">Last 24 hours</div>
+            </div>
+            <div class="card-header-action">
+              <button class="icon-btn" aria-label="More options">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+              <div style="display: flex; justify-content: space-between; color: var(--text-secondary);"><span>Proposal sent · Acme</span><span style="color: var(--text-muted);">2h</span></div>
+              <div style="display: flex; justify-content: space-between; color: var(--text-secondary);"><span>Intake signed · Noodle</span><span style="color: var(--text-muted);">4h</span></div>
+              <div style="display: flex; justify-content: space-between; color: var(--text-secondary);"><span>New lead · Halden Co.</span><span style="color: var(--text-muted);">6h</span></div>
+              <div style="display: flex; justify-content: space-between; color: var(--text-secondary);"><span>Follow-up · Northwind</span><span style="color: var(--text-muted);">8h</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subtle aside -->
+        <div class="card card-subtle card-md">
+          <div class="card-eyebrow">Note</div>
+          <div class="card-body muted" style="font-size: 13px;">
+            Merge freeze Thursday through Monday for mobile release cut. Non-critical PRs queue after.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Do / Don't -->
+  <section>
+    <div class="section-kicker">§7 · Usage</div>
+    <h2>Rules.</h2>
+
+    <div class="rules">
+      <div>
+        <h3>Do</h3>
+        <ul>
+          <li>Default to Flat. It fits most surfaces.</li>
+          <li>Use Outlined for nested cards (card inside card).</li>
+          <li>Use Subtle for asides and low-emphasis groupings.</li>
+          <li>Reserve Feature for the single attention card per view.</li>
+          <li>Opt in to interactivity explicitly via <code>.card-interactive</code>.</li>
+          <li>Keep header trailing slot to one item. More goes in footer.</li>
+          <li>Match radius and padding to the card size. Don't customize per-instance.</li>
+          <li>Wrap fully-clickable cards in a button or anchor.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Don't</h3>
+        <ul>
+          <li>Don't add drop-shadows. Ever. Surface contrast does the work.</li>
+          <li>Don't place two Feature cards on one screen.</li>
+          <li>Don't put a Hero button inside a Feature card. One anchor per view.</li>
+          <li>Don't override the 8px radius.</li>
+          <li>Don't use Feature variant for decoration. If it doesn't demand action, it isn't Feature.</li>
+          <li>Don't stack multiple primary buttons in a single card footer.</li>
+          <li>Don't attach onClick to a bare div. Use a semantic element or role.</li>
+          <li>Don't build one-off variants. New variants come back to this spec.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

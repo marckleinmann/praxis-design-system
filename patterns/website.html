@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Praxis · Website Patterns v1</title>
+<style>
+  :root {
+    --warm-50: #FCFAF6;
+    --warm-100: #F5F0E8;
+    --warm-200: #E8DFD2;
+    --warm-300: #D4C7B4;
+    --warm-400: #B0A18C;
+    --warm-500: #8A7C6A;
+    --warm-600: #5C5248;
+    --warm-700: #3D3630;
+    --warm-800: #2A2520;
+    --warm-900: #1C1814;
+    --warm-950: #141210;
+    --signal-500: #A3FF12;
+    --signal-700: #6FA80B;
+    --terracotta-500: #B8654A;
+    --terracotta-700: #7A3E2A;
+    --destructive-500: #C94343;
+
+    --bg: var(--warm-800);
+    --surface: var(--warm-700);
+    --surface-subtle: rgba(245, 240, 232, 0.03);
+    --text-primary: var(--warm-100);
+    --text-secondary: var(--warm-300);
+    --text-muted: var(--warm-500);
+    --border-subtle: rgba(245, 240, 232, 0.08);
+
+    --btn-hero-bg: var(--signal-500);
+    --btn-hero-fg: var(--warm-800);
+    --btn-primary-bg: var(--terracotta-500);
+    --btn-primary-fg: var(--warm-100);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Page frame */
+  .page { max-width: 1200px; margin: 0 auto; padding: 64px 48px 96px; }
+  .pattern-frame {
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    margin-bottom: 48px;
+    overflow: hidden;
+    background: var(--warm-900);
+  }
+  .pattern-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: var(--warm-950);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .pattern-name {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .pattern-meta {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+  }
+
+  /* Page header */
+  .page-header { margin-bottom: 64px; }
+  .kicker {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+  h1.page-h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+  }
+  .page-sub {
+    font-size: 16px;
+    color: var(--text-secondary);
+    max-width: 640px;
+  }
+  .page-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  /* ============ BUTTON ============ */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 120ms ease, opacity 120ms ease;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .btn-sm { height: 28px; padding: 0 10px; font-size: 12px; gap: 6px; }
+  .btn-md { height: 32px; padding: 0 12px; font-size: 13px; }
+  .btn-lg { height: 40px; padding: 0 16px; font-size: 14px; gap: 10px; }
+  .btn-hero { background: var(--btn-hero-bg); color: var(--btn-hero-fg); font-weight: 600; }
+  .btn-hero:hover { background: var(--signal-700); }
+  .btn-primary { background: var(--btn-primary-bg); color: var(--btn-primary-fg); }
+  .btn-primary:hover { background: var(--terracotta-700); }
+  .btn-ghost { background: transparent; color: var(--text-primary); border-color: var(--border-subtle); }
+  .btn-ghost:hover { background: rgba(245, 240, 232, 0.04); }
+
+  /* ============ LOGO TILE ============ */
+  .logo-tile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--signal-500);
+    color: var(--warm-800);
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+  }
+  .logo-tile-sm { width: 28px; height: 28px; border-radius: 2.5px; font-size: 20px; }
+  .logo-tile-md { width: 36px; height: 36px; border-radius: 3.2px; font-size: 26px; }
+  .logo-wordmark {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+  }
+
+  /* ============ 1. TOP NAV ============ */
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    background: var(--warm-900);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .nav-left { display: flex; align-items: center; gap: 12px; }
+  .nav-wordmark { font-size: 22px; line-height: 1; }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-link {
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 120ms;
+  }
+  .nav-link:hover { color: var(--text-primary); }
+
+  /* ============ 2. HERO ============ */
+  .hero {
+    padding: 96px 40px 80px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--signal-500);
+    margin-bottom: 24px;
+  }
+  .hero-headline {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 72px;
+    font-weight: 500;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    margin: 0 0 24px;
+    color: var(--text-primary);
+  }
+  .hero-headline em {
+    font-style: italic;
+    color: var(--text-primary);
+  }
+  .hero-sub {
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    max-width: 620px;
+    margin: 0 0 40px;
+  }
+  .hero-actions { display: flex; gap: 12px; align-items: center; }
+  .hero-meta {
+    margin-top: 56px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .hero-meta-item { font-size: 13px; color: var(--text-muted); }
+  .hero-meta-item strong { color: var(--text-primary); font-weight: 500; display: block; margin-top: 4px; }
+
+  /* ============ 3. METRIC ROW ============ */
+  .metric-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 40px;
+    background: var(--warm-900);
+  }
+  .metric-tile {
+    padding: 20px;
+    background: var(--surface);
+    border-radius: 8px;
+  }
+  .metric-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .metric-value {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.015em;
+    color: var(--text-primary);
+  }
+  .metric-caption {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+
+  /* ============ 4. CASE STUDY CARD PATTERN ============ */
+  .cases-section { padding: 80px 40px; }
+  .section-header { margin-bottom: 48px; max-width: 680px; }
+  .section-eyebrow {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+  .section-h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 40px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    margin: 0 0 12px;
+  }
+  .section-sub {
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .cases-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .case-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    border-radius: 8px;
+    background: var(--surface);
+    border: 1px solid transparent;
+    transition: border-color 120ms ease;
+    text-decoration: none;
+    color: inherit;
+  }
+  .case-card:hover { border-color: rgba(163, 255, 18, 0.2); }
+  .case-industry {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .case-headline {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .case-result {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 13px;
+    color: var(--signal-500);
+  }
+  .case-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .case-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  .case-tag {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 8px;
+    border-radius: 11px;
+    font-size: 11px;
+    background: rgba(245, 240, 232, 0.06);
+    color: var(--text-muted);
+    border: 1px solid var(--border-subtle);
+  }
+  .case-read {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-primary);
+    padding-top: 12px;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  /* ============ 5. CTA BAND ============ */
+  .cta-band {
+    padding: 80px 40px;
+    background: var(--warm-950);
+    text-align: center;
+  }
+  .cta-inner { max-width: 720px; margin: 0 auto; }
+  .cta-eyebrow {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--signal-500);
+    margin-bottom: 20px;
+  }
+  .cta-headline {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 44px;
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 20px;
+  }
+  .cta-sub {
+    font-size: 17px;
+    color: var(--text-secondary);
+    margin: 0 0 32px;
+  }
+  .cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  /* ============ 6. FOOTER ============ */
+  .footer {
+    padding: 64px 40px 32px;
+    background: var(--warm-900);
+    border-top: 1px solid var(--border-subtle);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 48px;
+  }
+  .footer-brand { display: flex; flex-direction: column; gap: 16px; max-width: 320px; }
+  .footer-brand-wordmark { font-size: 24px; line-height: 1; }
+  .footer-tagline { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+  .footer-col-title {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 16px;
+  }
+  .footer-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .footer-link {
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-decoration: none;
+  }
+  .footer-link:hover { color: var(--text-primary); }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-subtle);
+    font-size: 12px;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-bottom-links { display: flex; gap: 20px; }
+
+  /* ============ 7. CONTACT FORM ============ */
+  .contact-section {
+    padding: 80px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .contact-copy h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 36px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    margin: 0 0 16px;
+  }
+  .contact-copy p { color: var(--text-secondary); margin: 0 0 20px; }
+  .contact-copy ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .contact-copy li {
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+  .contact-copy li::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    background: var(--signal-500);
+    border-radius: 50%;
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+
+  .form { display: flex; flex-direction: column; gap: 16px; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+  .input, .textarea, .select {
+    height: 40px;
+    padding: 0 12px;
+    background: var(--warm-950);
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 14px;
+    transition: border-color 120ms;
+  }
+  .input:focus, .textarea:focus, .select:focus {
+    outline: 2px solid rgba(163, 255, 18, 0.4);
+    outline-offset: 2px;
+    border-color: rgba(163, 255, 18, 0.3);
+  }
+  .input::placeholder, .textarea::placeholder { color: var(--text-muted); }
+  .textarea { height: auto; min-height: 120px; padding: 12px; resize: vertical; font-family: inherit; line-height: 1.5; }
+  .select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238A7C6A' stroke-width='2' stroke-linecap='round'><path d='M6 9l6 6 6-6'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+  }
+  .helper { font-size: 12px; color: var(--text-muted); }
+  .form-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+
+  /* Design notes section */
+  .notes-section {
+    margin-top: 80px;
+    padding-top: 48px;
+    border-top: 1px solid var(--border-subtle);
+  }
+  .notes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .note {
+    padding: 20px;
+    background: var(--surface);
+    border-radius: 8px;
+  }
+  .note h3 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0 0 12px;
+  }
+  .note p, .note ul { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+  .note ul { margin: 0; padding-left: 18px; }
+  .note code {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 12px;
+    background: var(--warm-950);
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: var(--text-primary);
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Page header -->
+  <header class="page-header">
+    <div class="kicker">Praxis Design System · Website Patterns v1</div>
+    <h1 class="page-h1">Website. In context.</h1>
+    <p class="page-sub">Six surfaces the Praxis site needs, composed from the locked primitives (typography, color, logo, button, card). No new components. Same tokens. Marketing register.</p>
+    <div class="page-meta">
+      <span>Locked 2026-04-22</span>
+      <span>Composes: Typography v1 · Color v1 · Logo v1 · Button v1 · Card v1</span>
+      <span>Feeds: Phase 4 website MVP build</span>
+    </div>
+  </header>
+
+  <!-- 1. Top nav -->
+  <div class="pattern-frame">
+    <div class="pattern-label">
+      <span class="pattern-name">§1 · Top nav</span>
+      <span class="pattern-meta">padding 20/40 · wordmark 22px · link 14px</span>
+    </div>
+    <nav class="nav">
+      <div class="nav-left">
+        <div class="logo-tile logo-tile-md">Π</div>
+        <div class="logo-wordmark nav-wordmark">praxis</div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#" class="nav-link">Work</a></li>
+        <li><a href="#" class="nav-link">Playbooks</a></li>
+        <li><a href="#" class="nav-link">About</a></li>
+        <li><a href="#" class="nav-link">Contact</a></li>
+        <li><a href="#" class="btn btn-primary btn-md">Start a diagnostic</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- 2. Hero -->
+  <div class="pattern-frame">
+    <div class="pattern-label">
+      <span class="pattern-name">§2 · Hero</span>
+      <span class="pattern-meta">headline 72px · sub 19px · hero btn + ghost</span>
+    </div>
+    <div class="hero">
+      <div class="hero-eyebrow">Applied AI for operating businesses</div>
+      <h1 class="hero-headline">Ship the AI workflow. <em>Not the slide deck.</em></h1>
+      <p class="hero-sub">Praxis builds production-ready AI automation for small and mid-market teams. Diagnostics in a week. Builds in a month. Outcomes you can measure.</p>
+      <div class="hero-actions">
+        <a href="#" class="btn btn-hero btn-lg">Start a diagnostic.</a>
+        <a href="#" class="btn btn-ghost btn-lg">See the work</a>
+      </div>
+      <div class="hero-meta">
+        <div class="hero-meta-item">Diagnostic<strong>1 week</strong></div>
+        <div class="hero-meta-item">Build<strong>3 to 6 weeks</strong></div>
+        <div class="hero-meta-item">Embed<strong>1 day / week</strong></div>
+        <div class="hero-meta-item">Based in<strong>New York</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Metric row -->
+  <div class="pattern-frame">
+    <div class="pattern-label">
+      <span class="pattern-name">§3 · Metric row</span>
+      <span class="pattern-meta">4-up grid · value 40px Fraunces · tile 8px radius</span>
+    </div>
+    <div class="metric-row">
+      <div class="metric-tile">
+        <div class="metric-eyebrow">Avg time to first output</div>
+        <div class="metric-value">5 days</div>
+        <div class="metric-caption">From kickoff to working prototype</div>
+      </div>
+      <div class="metric-tile">
+        <div class="metric-eyebrow">Hours saved per workflow</div>
+        <div class="metric-value">12 / wk</div>
+        <div class="metric-caption">Median across 2026 diagnostics</div>
+      </div>
+      <div class="metric-tile">
+        <div class="metric-eyebrow">Fixed price</div>
+        <div class="metric-value">$5k</div>
+        <div class="metric-caption">Diagnostic starting anchor</div>
+      </div>
+      <div class="metric-tile">
+        <div class="metric-eyebrow">Clients shipped</div>
+        <div class="metric-value">14</div>
+        <div class="metric-caption">As of April 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Case study cards -->
+  <div class="pattern-frame">
+    <div class="pattern-label">
+      <span class="pattern-name">§4 · Case study cards</span>
+      <span class="pattern-meta">3-up grid · case-card extends Card v1 flat · result in signal</span>
+    </div>
+    <div class="cases-section">
+      <div class="section-header">
+        <div class="section-eyebrow">Work</div>
+        <h2 class="section-h2">Recent engagements.</h2>
+        <p class="section-sub">Picked for clarity of outcome. Anonymized where required.</p>
+      </div>
+      <div class="cases-grid">
+
+        <a href="#" class="case-card">
+          <div class="case-industry">Professional services</div>
+          <h3 class="case-headline">Client intake, end to end.</h3>
+          <div class="case-result">5 hours per intake → 20 minutes</div>
+          <p class="case-desc">Document pipeline and templated letters replaced manual intake. Files generated, signed, archived in one flow.</p>
+          <div class="case-tags">
+            <span class="case-tag">Automation</span>
+            <span class="case-tag">Templates</span>
+            <span class="case-tag">Workflow</span>
+          </div>
+          <div class="case-read">Read the build
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </div>
+        </a>
+
+        <a href="#" class="case-card">
+          <div class="case-industry">Retail and e-commerce</div>
+          <h3 class="case-headline">Daily ad brief, on autopilot.</h3>
+          <div class="case-result">2 hours of scanning → 15 minutes</div>
+          <p class="case-desc">Scheduled scrape plus ranking turned a daily review into a morning digest. The team reviews the top picks only.</p>
+          <div class="case-tags">
+            <span class="case-tag">Scraping</span>
+            <span class="case-tag">Ranking</span>
+            <span class="case-tag">Digest</span>
+          </div>
+          <div class="case-read">Read the build
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </div>
+        </a>
+
+        <a href="#" class="case-card">
+          <div class="case-industry">Operations</div>
+          <h3 class="case-headline">Exec dashboard, owned by ops.</h3>
+          <div class="case-result">Friday reports → self-serve, live</div>
+          <p class="case-desc">Database plus newsletter plus authored weekly narrative. The exec team reads one email. The ops lead owns the source of truth.</p>
+          <div class="case-tags">
+            <span class="case-tag">Dashboard</span>
+            <span class="case-tag">Newsletter</span>
+            <span class="case-tag">Reporting</span>
+          </div>
+          <div class="case-read">Read the build
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. CTA band -->
+  <div class="pattern-frame">
+    <div class="pattern-label">
+      <span class="pattern-name">§5 · CTA band</span>
+      <span class="pattern-meta">warm-950 bg · eyebrow signal · hero + ghost pair</span>
+    </div>
+    <div class="cta-band">
+      <div class="cta-inner">
+        <div class="cta-eyebrow">Diagnostic</div>
+        <h2 class="cta-headline">One week. Fixed price. Yours to keep.</h2>
+        <p class="cta-sub">Five days of mapping your workflow, spotting the AI wins, and handing you a build plan. Keep the plan whether we build together or not.</p>
+        <div class="cta-actions">
+          <a href="#" class="btn btn-hero btn-lg">Book a diagnostic</a>
+          <a href="#" class="btn btn-ghost btn-lg">How it works</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Contact form -->
+  <div class="pattern-frame">
+    <div class="pattern-label">
+      <span class="pattern-name">§6 · Contact form</span>
+      <span class="pattern-meta">2-col · inputs 40px · same focus ring as buttons</span>
+    </div>
+    <div class="contact-section">
+      <div class="contact-copy">
+        <div class="section-eyebrow">Contact</div>
+        <h2>Tell us what's broken.</h2>
+        <p>The more specific, the better. We reply within one business day.</p>
+        <ul>
+          <li>Diagnostic inquiries: 5 to 10 line description is fine.</li>
+          <li>Build inquiries: share what you'd measure success on.</li>
+          <li>Advisory: say what question you'd want answered in the first call.</li>
+        </ul>
+      </div>
+      <form class="form" onsubmit="event.preventDefault();">
+        <div class="field-row">
+          <div class="field">
+            <label class="label" for="cname">Name</label>
+            <input class="input" id="cname" type="text" placeholder="Your name">
+          </div>
+          <div class="field">
+            <label class="label" for="cemail">Email</label>
+            <input class="input" id="cemail" type="email" placeholder="name@company.com">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="ccompany">Company</label>
+          <input class="input" id="ccompany" type="text" placeholder="Company name">
+        </div>
+        <div class="field">
+          <label class="label" for="cengagement">Engagement shape</label>
+          <select class="select" id="cengagement">
+            <option>Diagnostic · 1 week</option>
+            <option>Build · fixed price · 3 to 6 weeks</option>
+            <option>Embed · 1 day per week</option>
+            <option>Not sure yet</option>
+          </select>
+          <div class="helper">Pick what best matches. We'll confirm on the first call.</div>
+        </div>
+        <div class="field">
+          <label class="label" for="cmessage">What are you trying to do?</label>
+          <textarea class="textarea" id="cmessage" placeholder="The workflow or problem you want AI to help with."></textarea>
+        </div>
+        <div class="form-actions">
+          <div class="helper">We reply within 1 business day.</div>
+          <button class="btn btn-primary btn-md" type="submit">Send</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 7. Footer -->
+  <div class="pattern-frame">
+    <div class="pattern-label">
+      <span class="pattern-name">§7 · Footer</span>
+      <span class="pattern-meta">4-col grid · wordmark 24px · column titles 11px caps</span>
+    </div>
+    <footer class="footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div class="logo-tile logo-tile-md">Π</div>
+            <div class="logo-wordmark footer-brand-wordmark">praxis</div>
+          </div>
+          <p class="footer-tagline">Applied AI for operating businesses. Diagnostics, builds, embed engagements for SMB and mid-market teams.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Work</div>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link">Case studies</a></li>
+            <li><a href="#" class="footer-link">Engagements</a></li>
+            <li><a href="#" class="footer-link">Pricing</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Learn</div>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link">Playbooks</a></li>
+            <li><a href="#" class="footer-link">Newsletter</a></li>
+            <li><a href="#" class="footer-link">LinkedIn</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Company</div>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link">About</a></li>
+            <li><a href="#" class="footer-link">Contact</a></li>
+            <li><a href="#" class="footer-link">Company</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Praxis</span>
+        <div class="footer-bottom-links">
+          <a href="#" class="footer-link" style="font-size: 12px;">Privacy</a>
+          <a href="#" class="footer-link" style="font-size: 12px;">Terms</a>
+          <a href="#" class="footer-link" style="font-size: 12px;">Colophon</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Design notes -->
+  <section class="notes-section">
+    <div class="section-eyebrow">Notes</div>
+    <h2 class="section-h2" style="margin-bottom: 24px;">Decisions carried from primitives.</h2>
+
+    <div class="notes-grid">
+
+      <div class="note">
+        <h3>Icon direction</h3>
+        <p>Lucide icon library. Stroke weight <code>1.75</code>. Sizes: <code>14px</code> inside sm buttons, <code>16px</code> inside md buttons, <code>18px</code> inside lg buttons. Plain <code>20px</code> for nav or body use. <code>24px</code> for feature treatments. Inherit <code>currentColor</code>. No fills. No custom icons unless the brand needs one.</p>
+      </div>
+
+      <div class="note">
+        <h3>Type in marketing register</h3>
+        <p>Fraunces italic weight 500 reserved for wordmark. Fraunces roman weight 500 for hero and section headlines. Inter 400 body, Inter 500 for UI labels and buttons. JetBrains Mono for case results and metric captions. Sizes match this page.</p>
+      </div>
+
+      <div class="note">
+        <h3>Color discipline</h3>
+        <p>Warm-800 is page default. Warm-900 for hero and metric row contrast. Warm-950 for CTA band and input fills. Signal only on: logo tile, single hero CTA, eyebrow labels for emphasis, case result lines. Zero Feature cards on public marketing surfaces. Primary button is terracotta.</p>
+      </div>
+
+      <div class="note">
+        <h3>Asset exports needed for Phase 4</h3>
+        <ul>
+          <li>Logo tile SVG master + PNG 32 / 64 / 128 / 256 / 512 / 1024</li>
+          <li>Favicon: 16 / 32 / 180 (apple-touch) / SVG</li>
+          <li>OG / Twitter card: 1200×630 with tile + wordmark on Warm-900</li>
+          <li>LinkedIn company cover: 1128×191 tile at left, tagline right</li>
+          <li>Wordmark SVG (italic-500-opsz144) for headers and email signatures</li>
+          <li>Tile + wordmark horizontal lockup SVG (nav use)</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
